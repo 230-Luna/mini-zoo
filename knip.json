@@ -19,5 +19,10 @@
       "src/app/**/{opengraph,twitter}-image.{js,jsx,ts,tsx}"
     ]
   },
-  "ignore": ["?(*.)config.*", "server.{js,mjs}", ".next/**/*"]
+  "ignore": [
+    "?(*.)config.*",
+    "server.{js,mjs}",
+    ".next/**/*",
+    "src/utils/router.ts"
+  ]
 }
