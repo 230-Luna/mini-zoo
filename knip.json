@@ -24,8 +24,5 @@
     "server.{js,mjs}",
     ".next/**/*",
     "src/utils/router.ts"
-  ],
-  "__comment__": {
-    "지워야할것": "router.ts 사용하게 되면 ignore에서 삭제 필요"
-  }
+  ]
 }
