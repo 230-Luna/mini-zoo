@@ -1,10 +1,11 @@
 import { css, Global } from "@emotion/react";
 import { ReactNode } from "react";
+import { colors } from "./../constants/colors";
 
 export function GlobalStyle({ children }: { children: ReactNode }) {
   return (
     <>
-      <Global styles={[resetCss, fontCss]} />
+      <Global styles={[resetCss, fontCss, backgroundCss]} />
       {children}
     </>
   );
@@ -152,8 +153,12 @@ const fontCss = css`
   }
 
   body {
-    font-family: "Ownglyph_ParkDaHyun", "Pretendard", "Noto Sans KR",
-      "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "Helvetica", "Arial",
-      sans-serif;
+    font-family: "Ownglyph_ParkDaHyun", "Tossface", sans-serif;
+  }
+`;
+
+const backgroundCss = css`
+  html {
+    background-color: ${colors.peach50};
   }
 `;

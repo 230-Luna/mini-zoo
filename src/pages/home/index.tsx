@@ -1,3 +1,5 @@
+import { Text } from "components/Text";
+
 export function HomePage() {
-  return <div>HomePage</div>;
+  return <Text typography="title">HomePage</Text>;
 }
