@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 export function GlobalStyle({ children }: { children: ReactNode }) {
   return (
     <>
-      <Global styles={[resetCss]} />
+      <Global styles={[resetCss, fontCss]} />
       {children}
     </>
   );
@@ -139,5 +139,21 @@ const resetCss = css`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+`;
+
+const fontCss = css`
+  @font-face {
+    font-family: "Ownglyph_ParkDaHyun";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    font-family: "Ownglyph_ParkDaHyun", "Pretendard", "Noto Sans KR",
+      "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "Helvetica", "Arial",
+      sans-serif;
   }
 `;
