@@ -23,7 +23,6 @@
     "?(*.)config.*",
     "server.{js,mjs}",
     ".next/**/*",
-    "src/utils/router.ts",
-    "src/utils/colors.ts"
+    "src/utils/router.ts"
   ]
 }
