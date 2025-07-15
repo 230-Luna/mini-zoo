@@ -7,6 +7,7 @@ const fontStyle = {
   cation: { fontSize: "20px" },
   subcation: { fontSize: "15px" },
   label: { fontSize: "25px" },
+  icon: { fontSize: "100px" },
 } as const;
 
 type Typography = keyof typeof fontStyle;
