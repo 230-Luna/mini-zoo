@@ -10,7 +10,8 @@ export default function Document() {
           href="https://cdn.jsdelivr.net"
           crossOrigin="anonymous"
         />
-        <link        href="https://cdn.jsdelivr.net/gh/toss/tossface/dist/tossface.css"
+        <link
+          href="https://cdn.jsdelivr.net/gh/toss/tossface/dist/tossface.css"
           rel="stylesheet"
           type="text/css"
         />
