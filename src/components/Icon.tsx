@@ -1,125 +1,19 @@
 import Image from "next/image";
+import { ComponentProps } from "react";
 
-type IconType =
-  | "apple"
-  | "aubergine"
-  | "avocado"
-  | "bacon"
-  | "bagle"
-  | "baguette"
-  | "banana"
-  | "bat"
-  | "beaver"
-  | "bee"
-  | "beer"
-  | "birdFace"
-  | "blackBird"
-  | "blueberries"
-  | "bonemeat"
-  | "broccoli"
-  | "brownBearFace"
-  | "burger"
-  | "candy"
-  | "carFace"
-  | "carrot"
-  | "cherry"
-  | "chick"
-  | "chickenFace"
-  | "chickenLeg"
-  | "chickFace"
-  | "chocolate"
-  | "closeButton"
-  | "coconut"
-  | "cokie"
-  | "corn"
-  | "cowFace"
-  | "croissant"
-  | "cucumber"
-  | "dogFace"
-  | "donuts"
-  | "duck"
-  | "eagle"
-  | "egg"
-  | "flatBread"
-  | "foxFace"
-  | "frogFace"
-  | "grape"
-  | "grayBearFace"
-  | "greenapple"
-  | "hamburgerButton"
-  | "hamsterFace"
-  | "hedgehog"
-  | "honey"
-  | "horseFace"
-  | "kiwi"
-  | "koalaFace"
-  | "lionFace"
-  | "lollipop"
-  | "meat"
-  | "melon"
-  | "moai"
-  | "monkeyFace"
-  | "mouseFace"
-  | "newlyHatchedChick"
-  | "nuleongSoobookz"
-  | "olive"
-  | "orange"
-  | "otter"
-  | "owl"
-  | "pancake"
-  | "pandaFace"
-  | "partyPopper"
-  | "pawprint"
-  | "pawPrints"
-  | "pea"
-  | "peach"
-  | "pear"
-  | "penguinFace"
-  | "pepper"
-  | "pie"
-  | "pieceOfCake"
-  | "pigFace"
-  | "pineapple"
-  | "pizza"
-  | "popcorn"
-  | "potato"
-  | "pretzels"
-  | "pudding"
-  | "rabbitFace"
-  | "redBeans"
-  | "remon"
-  | "rice"
-  | "sandwich"
-  | "settingButton"
-  | "smilingFaceWithOpenMouthAndColdSweat"
-  | "softicecream"
-  | "squirrel"
-  | "strawberry"
-  | "sweetpotato"
-  | "tigerFace"
-  | "tomato"
-  | "unicornFace"
-  | "water"
-  | "watermelon"
-  | "whale"
-  | "whiteBread"
-  | "wildBoarFace"
-  | "wolfFace";
-
-interface IconProps {
-  type: IconType;
+interface IconProps extends Omit<ComponentProps<typeof Image>, "src" | "alt"> {
+  type: string;
   size?: number;
 }
 
-const Icon = ({ type, size = 40 }: IconProps) => {
+export const Icon = ({ type, size = 40, ...props }: IconProps) => {
   return (
     <Image
       src={`/emoji/${type}.svg`}
       alt={`${type} icon`}
       width={size}
       height={size}
+      {...props}
     />
   );
 };
-
-export default Icon;
