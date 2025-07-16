@@ -1,5 +1,5 @@
 import { Card } from "components/Card";
-import Icon from "components/Icon";
+import { Icon } from "components/Icon";
 import { Text } from "components/Text";
 
 export function HomePage() {
@@ -7,18 +7,10 @@ export function HomePage() {
     <>
       <Text typography="title">미니쥬</Text>
       <Icon type="nuleongSoobookz" size={40} />
-      <Card>
-        <Text typography="cation">Basic</Text>
-      </Card>
-      <Card size="sm" variant="elevated">
-        <Text typography="cation">sm</Text>
-      </Card>
-      <Card size="md" variant="outlined">
-        <Text typography="cation">md</Text>
-      </Card>
-      <Card size="lg" variant="elevated">
-        <Text typography="cation">lg</Text>
-      </Card>
+      <Card description="100점" title="순서 기억하기" thumbnail="pigFace" />
+      <Card title="장애물 피하기" thumbnail="catFace" />
+      <Card description="??점" title="????" />
+      <Icon type="nuleongSoobookz" width={100} height={100} />
     </>
   );
 }
