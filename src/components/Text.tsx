@@ -16,16 +16,16 @@ interface TextProps extends HTMLAttributes<HTMLSpanElement> {
   color?: string;
 }
 
-export function Text({
+export const Text = ({
   children,
   typography = "subtitle",
   color = colors.brown900,
   ...props
-}: TextProps) {
+}: TextProps) => {
   const style = { ...fontStyle[typography], color };
   return (
     <span css={{ ...style }} {...props}>
       {children}
     </span>
   );
-}
+};

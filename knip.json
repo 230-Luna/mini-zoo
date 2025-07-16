@@ -23,6 +23,7 @@
     "?(*.)config.*",
     "server.{js,mjs}",
     ".next/**/*",
-    "src/utils/router.ts"
+    "src/utils/router.ts",
+    "src/components/Flex.tsx"
   ]
 }
