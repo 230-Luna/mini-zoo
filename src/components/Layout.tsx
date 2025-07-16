@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export function Layout({ children }: { children: ReactNode }) {
+export const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div
       css={{
@@ -11,4 +11,4 @@ export function Layout({ children }: { children: ReactNode }) {
       {children}
     </div>
   );
-}
+};
