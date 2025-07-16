@@ -24,6 +24,7 @@
     "server.{js,mjs}",
     ".next/**/*",
     "src/utils/router.ts",
-    "src/components/Flex.tsx"
+    "src/components/Flex.tsx",
+    "src/components/Spacing.tsx"
   ]
 }
