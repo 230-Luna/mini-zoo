@@ -46,7 +46,6 @@ export function HomePage() {
       <Flex direction="column">
         <Text typography="cation">아이콘버튼</Text>
         <IconButton
-          loading={isIconButtonDisabled}
           name="pigFace"
           size={40}
           onClick={() => {
@@ -55,11 +54,21 @@ export function HomePage() {
               setIsIconButtonDisabled(false);
             }, 1500);
           }}
-        />{" "}
+        />
       </Flex>
       <Card description="??점" title="????" />
       <Icon name="nuleongSoobookz" width={100} height={100} />
-      <BottomButton>게임 시작</BottomButton>
+      <BottomButton
+        loading={isIconButtonDisabled}
+        onClick={() => {
+          setIsIconButtonDisabled(true);
+          setTimeout(() => {
+            setIsIconButtonDisabled(false);
+          }, 1500);
+        }}
+      >
+        게임 시작
+      </BottomButton>
     </>
   );
 }

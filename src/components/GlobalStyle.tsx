@@ -1,8 +1,28 @@
 import { css, Global } from "@emotion/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { colors } from "./../constants/colors";
 
 export function GlobalStyle({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && (e.key === "+" || e.key === "-" || e.key === "=")) {
+        e.preventDefault();
+      }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) e.preventDefault();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   return (
     <>
       <Global styles={[resetCss, fontCss, backgroundCss]} />
@@ -152,7 +172,11 @@ const fontCss = css`
     font-style: normal;
   }
 
-  body {
+  html,
+  body,
+  *,
+  *::before,
+  *::after {
     font-family: "Ownglyph_ParkDaHyun", "Tossface", sans-serif;
   }
 `;
