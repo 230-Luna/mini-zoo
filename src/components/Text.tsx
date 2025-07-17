@@ -6,7 +6,7 @@ const fontStyle = {
   subtitle: { fontSize: "25px" },
   cation: { fontSize: "20px" },
   subcation: { fontSize: "15px" },
-  label: { fontSize: "25px" },
+  label: { fontSize: "40px", color: colors.white50 },
 } as const;
 
 type Typography = keyof typeof fontStyle;
@@ -22,7 +22,7 @@ export const Text = ({
   color = colors.brown900,
   ...props
 }: TextProps) => {
-  const style = { ...fontStyle[typography], color };
+  const style = { color, ...fontStyle[typography] };
   return (
     <span css={{ ...style }} {...props}>
       {children}
