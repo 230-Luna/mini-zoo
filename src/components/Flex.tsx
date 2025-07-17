@@ -1,14 +1,11 @@
-import { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { ComponentProps, CSSProperties, ReactNode } from "react";
 
-interface FlexProps extends HTMLAttributes<HTMLDivElement> {
+interface FlexProps extends ComponentProps<"div"> {
   children?: ReactNode;
   alignItems?: CSSProperties["alignItems"];
   alignContent?: CSSProperties["alignContent"];
   justify?: CSSProperties["justifyContent"];
-  basis?: CSSProperties["flexBasis"];
   direction?: CSSProperties["flexDirection"];
-  grow?: CSSProperties["flexGrow"];
-  shrink?: CSSProperties["flexShrink"];
   wrap?: CSSProperties["flexWrap"];
   gap?: CSSProperties["gap"];
 }
@@ -18,10 +15,7 @@ export const Flex = ({
   alignItems,
   alignContent,
   justify,
-  basis,
   direction,
-  grow,
-  shrink,
   wrap,
   gap,
   ...props
@@ -35,9 +29,6 @@ export const Flex = ({
         alignContent,
         justifyContent: justify,
         flexWrap: wrap,
-        flexBasis: basis,
-        flexGrow: grow,
-        flexShrink: shrink,
         gap,
       }}
       {...props}

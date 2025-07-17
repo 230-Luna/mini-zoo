@@ -1,5 +1,5 @@
 import { colors } from "constants/colors";
-import { HTMLAttributes } from "react";
+import { ComponentProps } from "react";
 
 const fontStyle = {
   title: { fontSize: "40px" },
@@ -11,7 +11,7 @@ const fontStyle = {
 
 type Typography = keyof typeof fontStyle;
 
-interface TextProps extends HTMLAttributes<HTMLSpanElement> {
+interface TextProps extends ComponentProps<"span"> {
   typography?: Typography;
   color?: string;
 }

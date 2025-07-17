@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { ComponentProps } from "react";
 import { Text } from "components/Text";
 import { Icon } from "components/Icon";
 
@@ -6,7 +6,7 @@ const sizeStyle = {
   standard: { padding: "10px", width: "100px", height: "75px" },
 };
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+interface CardProps extends ComponentProps<"div"> {
   size?: "standard";
   title?: string;
   description?: string;
@@ -33,7 +33,7 @@ export const Card = ({
       {description == null ? null : (
         <Text typography="subcation">{description}</Text>
       )}
-      <Icon type={thumbnail} size={40} />
+      <Icon name={thumbnail} size={40} />
       {title == null ? null : <Text typography="cation">{title}</Text>}
     </div>
   );
