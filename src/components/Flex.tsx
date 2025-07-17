@@ -1,6 +1,6 @@
-import { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { ComponentProps, CSSProperties, ReactNode } from "react";
 
-interface FlexProps extends HTMLAttributes<HTMLDivElement> {
+interface FlexProps extends ComponentProps<"div"> {
   children?: ReactNode;
   alignItems?: CSSProperties["alignItems"];
   alignContent?: CSSProperties["alignContent"];

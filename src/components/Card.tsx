@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { ComponentProps } from "react";
 import { Text } from "components/Text";
 import { Icon } from "components/Icon";
 
@@ -6,7 +6,7 @@ const sizeStyle = {
   standard: { padding: "10px", width: "100px", height: "75px" },
 };
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+interface CardProps extends ComponentProps<"div"> {
   size?: "standard";
   title?: string;
   description?: string;

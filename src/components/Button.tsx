@@ -1,8 +1,8 @@
 import { css, keyframes } from "@emotion/react";
 import { colors } from "constants/colors";
-import { HTMLAttributes, ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ComponentProps<"button"> {
   children: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
