@@ -33,7 +33,7 @@ export const Card = ({
       {description == null ? null : (
         <Text typography="subcation">{description}</Text>
       )}
-      <Icon type={thumbnail} size={40} />
+      <Icon name={thumbnail} size={40} />
       {title == null ? null : <Text typography="cation">{title}</Text>}
     </div>
   );

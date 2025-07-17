@@ -2,17 +2,18 @@ import Image from "next/image";
 import { ComponentProps } from "react";
 
 interface IconProps extends Omit<ComponentProps<typeof Image>, "src" | "alt"> {
-  type: string;
+  name: string;
   size?: number;
 }
 
-export const Icon = ({ type, size = 40, ...props }: IconProps) => {
+export const Icon = ({ name, size = 40, ...props }: IconProps) => {
   return (
     <Image
-      src={`/emoji/${type}.svg`}
-      alt={`${type} icon`}
+      src={`/emoji/${name}.svg`}
+      alt={`${name} icon`}
       width={size}
       height={size}
+      draggable={false}
       {...props}
     />
   );
