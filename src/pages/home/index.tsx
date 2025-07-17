@@ -1,3 +1,4 @@
+import { BottomButton } from "components/BottomButton";
 import { Card } from "components/Card";
 import { Icon } from "components/Icon";
 import { Text } from "components/Text";
@@ -11,6 +12,7 @@ export function HomePage() {
       <Card title="장애물 피하기" thumbnail="catFace" />
       <Card description="??점" title="????" />
       <Icon type="nuleongSoobookz" width={100} height={100} />
+      <BottomButton>게임 시작</BottomButton>
     </>
   );
 }
