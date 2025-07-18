@@ -1,4 +1,5 @@
-import { Button, ButtonProps } from "./Button";
+import { Button, ButtonProps } from "components/Button";
+import { Flex } from "./Flex";
 
 export const BottomButton = ({
   children,
@@ -7,13 +8,15 @@ export const BottomButton = ({
   loading = false,
 }: ButtonProps) => {
   return (
-    <Button
-      onClick={onClick}
-      disabled={disabled}
-      loading={loading}
-      css={{ position: "fixed", bottom: 0, left: 0 }}
-    >
-      {children}
-    </Button>
+    <Flex justify="center">
+      <Button
+        onClick={onClick}
+        disabled={disabled}
+        loading={loading}
+        css={{ position: "fixed", bottom: 12 }}
+      >
+        {children}
+      </Button>
+    </Flex>
   );
 };
