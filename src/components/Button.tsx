@@ -1,52 +1,54 @@
 import { css, keyframes } from "@emotion/react";
 import { colors } from "constants/colors";
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps } from "react";
 import { Text } from "./Text";
 
 export interface ButtonProps extends ComponentProps<"button"> {
-  children: ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
   loading?: boolean;
   disableHover?: boolean;
 }
 
 export const Button = ({
   children,
-  onClick,
   disabled = false,
   loading = false,
   disableHover = true,
   ...props
 }: ButtonProps) => {
-  const isDisabled = disabled || loading;
-
   return (
-    <button
-      css={buttonStyle(isDisabled, disableHover)}
-      onClick={onClick}
-      disabled={isDisabled}
-      {...props}
-    >
+    <button css={buttonStyle({ disabled, loading, disableHover })} {...props}>
       {loading ? <Spinner /> : <Text typography="label">{children}</Text>}
     </button>
   );
 };
 
-const buttonStyle = (disabled: boolean, disableHover: boolean) => css`
-  max-height: "58px";
-  width: 100%;
-  padding: 14px 0;
-  background-color: ${disabled ? colors.brown300 : colors.brown900};
+const buttonStyle = ({
+  disabled,
+  loading,
+  disableHover,
+}: {
+  disabled: boolean;
+  loading: boolean;
+  disableHover: boolean;
+}) => css`
+  max-height: 48px;
+  height: 48px;
+  width: 97%;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${disabled || loading ? colors.brown300 : colors.brown900};
   text-align: center;
   font-weight: bold;
   border: none;
-  cursor: ${disabled ? "not-allowed" : "pointer"};
+  cursor: ${disabled || loading ? "not-allowed" : "pointer"};
   transition: background-color 0.3s ease;
-
   ${!disableHover &&
   `&:hover {
-    background-color: ${disabled ? colors.brown300 : colors.brown400};
+    background-color: ${
+      disabled || loading ? colors.brown300 : colors.brown400
+    };
   }`}
 `;
 
@@ -67,10 +69,9 @@ const Spinner = () => (
   >
     <div
       css={{
-        padding: "12px",
-        width: "16px",
-        height: "16px",
-        border: "3px solid white",
+        width: "14px",
+        height: "14px",
+        border: "2px solid white",
         borderTopColor: "transparent",
         borderRadius: "50%",
         animation: `${spin} 0.6s linear infinite`,

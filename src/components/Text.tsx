@@ -6,7 +6,7 @@ const fontStyle = {
   subtitle: { fontSize: "25px" },
   cation: { fontSize: "20px" },
   subcation: { fontSize: "15px" },
-  label: { fontSize: "40px", color: colors.white50 },
+  label: { fontSize: "20px", color: colors.white50 },
 } as const;
 
 type Typography = keyof typeof fontStyle;

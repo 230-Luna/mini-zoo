@@ -1,31 +1,16 @@
 import { css, Global } from "@emotion/react";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { colors } from "./../constants/colors";
+import { useBlockZoomChange } from "hooks/useBlockZoomChange";
 
 export function GlobalStyle({ children }: { children: ReactNode }) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && (e.key === "+" || e.key === "-" || e.key === "=")) {
-        e.preventDefault();
-      }
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (e.ctrlKey) e.preventDefault();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
+  useBlockZoomChange();
 
   return (
     <>
-      <Global styles={[resetCss, fontCss, backgroundCss]} />
+      <Global
+        styles={[resetCss, fontCss, backgroundCss, mobileTouchEventCss]}
+      />
       {children}
     </>
   );
@@ -182,7 +167,25 @@ const fontCss = css`
 `;
 
 const backgroundCss = css`
-  html {
+  html,
+  body {
     background-color: ${colors.peach50};
+    overscroll-behavior: none;
+    margin: 12px;
+  }
+`;
+
+const mobileTouchEventCss = css`
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  a,
+  input,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    touch-action: manipulation;
   }
 `;
