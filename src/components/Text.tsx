@@ -1,7 +1,7 @@
 import { colors } from "constants/colors";
 import { ComponentProps } from "react";
 
-const fontStyle = {
+export const fontStyle = {
   title: { fontSize: "40px" },
   subtitle: { fontSize: "25px" },
   cation: { fontSize: "20px" },
