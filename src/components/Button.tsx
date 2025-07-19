@@ -33,7 +33,7 @@ const buttonStyle = ({
 }) => css`
   max-height: 48px;
   height: 48px;
-  width: 97%;
+  width: 100%;
   border-radius: 12px;
   display: flex;
   justify-content: center;

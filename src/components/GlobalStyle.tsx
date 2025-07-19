@@ -171,7 +171,6 @@ const backgroundCss = css`
   body {
     background-color: ${colors.peach50};
     overscroll-behavior: none;
-    margin: 12px;
   }
 `;
 
