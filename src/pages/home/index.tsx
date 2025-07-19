@@ -1,3 +1,4 @@
+import { AnimationWrapper } from "components/AnimationWrapper";
 import { Card } from "components/Card";
 import { Flex } from "components/Flex";
 import { Icon } from "components/Icon";
@@ -8,10 +9,12 @@ export function HomePage() {
   return (
     <>
       <Spacing size={66} />
-      <Flex justify="center">
-        <Text typography="title">미니쥬</Text>
-        <Icon name="nuleongSoobookz" size={40} />
-      </Flex>
+      <AnimationWrapper type="zoomIn">
+        <Flex justify="center">
+          <Text typography="title">미니쥬</Text>
+          <Icon name="nuleongSoobookz" size={40} />
+        </Flex>
+      </AnimationWrapper>
       <Spacing size={155} />
       <Flex>
         <Card
