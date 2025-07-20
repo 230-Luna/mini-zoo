@@ -1,15 +1,13 @@
 import { colors } from "constants/colors";
 import { ComponentProps } from "react";
 
-export const fontStyle = {
-  title: { fontSize: "40px" },
-  subtitle: { fontSize: "25px" },
-  cation: { fontSize: "20px" },
-  subcation: { fontSize: "15px" },
-  label: { fontSize: "20px", color: colors.white50 },
+export const fontSize = {
+  t1: "40px",
+  t2: "20px",
+  t3: "15px",
 } as const;
 
-type Typography = keyof typeof fontStyle;
+type Typography = keyof typeof fontSize;
 
 interface TextProps extends ComponentProps<"span"> {
   typography?: Typography;
@@ -18,11 +16,11 @@ interface TextProps extends ComponentProps<"span"> {
 
 export const Text = ({
   children,
-  typography = "subtitle",
+  typography = "t2",
   color = colors.brown900,
   ...props
 }: TextProps) => {
-  const style = { color, ...fontStyle[typography] };
+  const style = { color, fontSize: fontSize[typography] };
   return (
     <span css={{ ...style }} {...props}>
       {children}

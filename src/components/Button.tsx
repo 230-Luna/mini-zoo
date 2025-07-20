@@ -1,7 +1,9 @@
 import { css, keyframes } from "@emotion/react";
 import { colors } from "constants/colors";
 import { ComponentProps } from "react";
-import { Text } from "./Text";
+import { Text } from "components/Text";
+import { noop } from "utils/function";
+import { AnimationWrapper } from "components/AnimationWrapper";
 
 export interface ButtonProps extends ComponentProps<"button"> {
   loading?: boolean;
@@ -10,15 +12,32 @@ export interface ButtonProps extends ComponentProps<"button"> {
 
 export const Button = ({
   children,
-  disabled = false,
+
   loading = false,
+  onClick,
   disableHover = true,
   ...props
 }: ButtonProps) => {
   return (
-    <button css={buttonStyle({ disabled, loading, disableHover })} {...props}>
-      {loading ? <Spinner /> : <Text typography="label">{children}</Text>}
-    </button>
+    <AnimationWrapper type="lowScaleOnTap">
+      <button
+        onClick={loading ? noop : onClick}
+        css={buttonStyle({
+          disabled: props.disabled ?? false,
+          loading,
+          disableHover,
+        })}
+        {...props}
+      >
+        {loading ? (
+          <Spinner />
+        ) : (
+          <Text typography="t2" color={colors.white50}>
+            {children}
+          </Text>
+        )}
+      </button>
+    </AnimationWrapper>
   );
 };
 

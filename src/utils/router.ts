@@ -5,4 +5,4 @@ export const RouteUrls = {
     onboarding: () => "/sequence-memory-game/onboarding",
     playing: () => "/sequence-memory-game/playing",
   },
-};
+} as const;
