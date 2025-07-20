@@ -2,17 +2,9 @@ import { Button, ButtonProps } from "components/Button";
 import { PAGE_PADDING, PAGE_MAX_WIDTH } from "constants/layout";
 import { px } from "./../utils/css-unit";
 
-export const BottomButton = ({
-  children,
-  onClick,
-  disabled = false,
-  loading = false,
-}: ButtonProps) => {
+export const BottomButton = ({ children, ...props }: ButtonProps) => {
   return (
-    <Button
-      onClick={onClick}
-      disabled={disabled}
-      loading={loading}
+    <div
       css={{
         position: "fixed",
         maxWidth: px(PAGE_MAX_WIDTH),
@@ -20,7 +12,7 @@ export const BottomButton = ({
         bottom: px(PAGE_PADDING),
       }}
     >
-      {children}
-    </Button>
+      <Button {...props}>{children}</Button>
+    </div>
   );
 };

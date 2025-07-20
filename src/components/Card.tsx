@@ -1,5 +1,5 @@
 import { ComponentProps } from "react";
-import { fontStyle, Text } from "components/Text";
+import { fontSize, Text } from "components/Text";
 import { Icon } from "components/Icon";
 import { Spacing } from "components/Spacing";
 import { AnimationWrapper } from "./AnimationWrapper";
@@ -23,7 +23,7 @@ export const Card = ({
   ...props
 }: CardProps) => {
   return (
-    <AnimationWrapper type="scaleOnTap">
+    <AnimationWrapper type="highScaleOnTap">
       <div
         css={{
           display: "flex",
@@ -34,14 +34,14 @@ export const Card = ({
         {...props}
       >
         {description == null ? (
-          <Spacing size={fontStyle.subcation.fontSize} />
+          <Spacing size={fontSize.t3} />
         ) : (
-          <Text typography="subcation">{description}</Text>
+          <Text typography="t3">{description}</Text>
         )}
         <Spacing size={4} />
         <Icon name={thumbnail} size={40} />
         <Spacing size={8} />
-        <Text typography="cation">{title}</Text>
+        <Text typography="t2">{title}</Text>
       </div>
     </AnimationWrapper>
   );
