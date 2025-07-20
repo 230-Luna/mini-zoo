@@ -23,9 +23,6 @@
     "?(*.)config.*",
     "server.{js,mjs}",
     ".next/**/*",
-    "src/utils/router.ts",
-    "src/components/BottomButton.tsx",
-    "src/components/Button.tsx",
     "src/components/IconButton.tsx",
     "src/utils/assert.ts"
   ]
