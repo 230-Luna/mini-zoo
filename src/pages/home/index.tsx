@@ -12,14 +12,14 @@ export function HomePage() {
 
   return (
     <>
-      <Spacing size={66} />
+      <Spacing size={64} />
       <AnimationWrapper type="zoomIn">
         <Flex justify="center">
           <Text typography="t1">미니쥬</Text>
           <Icon name="nuleongSoobookz" size={40} />
         </Flex>
       </AnimationWrapper>
-      <Spacing size={155} />
+      <Spacing size={120} />
       <Flex>
         <Card
           title="순서 기억하기"

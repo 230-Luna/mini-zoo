@@ -13,17 +13,18 @@ export function SequenceMemoryGameIntroPage() {
 
   return (
     <>
-      <Spacing size={66} />
+      <Spacing size={64} />
       <Flex justify="center">
         <Text typography="t1">미니쥬</Text>
         <Icon name="nuleongSoobookz" size={40} />
       </Flex>
+      <Spacing size={16} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
           <Text typography="t2">순서 기억하기</Text>
         </AnimationWrapper>
       </Flex>
-      <Spacing size={155} />
+      <Spacing size={140} />
       <Flex justify="center">
         <AnimationWrapper type="shake">
           <Icon name="newlyHatchedChick" size={100} />
