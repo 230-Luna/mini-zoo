@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Icon } from "components/Icon";
 import { emojiAnimalFaceList } from "emojiAnimalFaceList";
 
 export const useGetRandomAnimalIcon = () => {
@@ -11,5 +10,5 @@ export const useGetRandomAnimalIcon = () => {
     setRandomAnimal(emojiAnimalFaceList[randomIndex]);
   }, []);
 
-  return <Icon name={`animal/face/${randomAnimal}`} />;
+  return randomAnimal;
 };

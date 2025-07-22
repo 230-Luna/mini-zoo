@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { css } from "@emotion/react";
-import { useGetRandomAnimalIcon } from "pages/sequence-memory-game/hooks/useGetRandomAnimal";
+import { useGetRandomAnimalIcon } from "pages/sequence-memory-game/common/hooks/useGetRandomAnimal";
 
 type ShowFirstAnimalProps = {
   x: number;
