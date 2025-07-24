@@ -3,9 +3,17 @@ import { Flex } from "components/Flex";
 import { Icon } from "components/Icon";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
-import { PracticeGaameStage } from "./PracticeGaameStage";
+import { SequenceMemoryGameTutorialGame } from "./tutorialGame";
+import { useRouter } from "next/router";
+import { RouteUrls } from "utils/router";
 
-export function SequenceMemoryGameOnboardingPage() {
+export function SequenceMemoryGameTutorialPage() {
+  const router = useRouter();
+
+  const handleTutorialGameDone = () => {
+    router.push(RouteUrls.sequenceMemoryGame.tutorial.answer());
+  };
+
   return (
     <>
       <Spacing size={64} />
@@ -20,7 +28,7 @@ export function SequenceMemoryGameOnboardingPage() {
         </AnimationWrapper>
       </Flex>
       <Spacing size={64} />
-      <PracticeGaameStage />
+      <SequenceMemoryGameTutorialGame onDone={handleTutorialGameDone} />
     </>
   );
 }

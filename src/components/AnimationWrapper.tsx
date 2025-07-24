@@ -8,9 +8,7 @@ type AnimationType =
   | "lowScaleOnTap"
   | "highScaleOnTap"
   | "flipItems"
-  | "shake"
-  | "appearandvanish"
-  | "spinmove";
+  | "shake";
 
 export function AnimationWrapper({
   children,
@@ -34,12 +32,6 @@ export function AnimationWrapper({
   if (type === "shake") {
     return <ShakeAnimation>{children}</ShakeAnimation>;
   }
-  // if (type === "appearandvanish") {
-  //   return <AppearAndVanish>{children}</AppearAndVanish>;
-  // }
-  // if (type === "spinmove") {
-  //   return <SpinMove>{children}</SpinMove>;
-  // }
 
   throw new Error("정의되지 않은 애니메이션 타입입니다");
 }
@@ -144,86 +136,3 @@ function ShakeAnimation({ children }: { children: ReactNode }) {
 
   return <motion.div animate={controls}>{children}</motion.div>;
 }
-
-// function AppearAndVanish({ children }: { children: ReactNode }) {
-//   const controls = useAnimation();
-
-//   return (
-//     <motion.div
-//       css={css`
-//         position: absolute;
-//         left: ${x}vw;
-//         top: ${y}vh;
-//         width: 50px;
-//         height: 50px;
-//         pointer-events: none;
-//       `}
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       exit={{ opacity: 0 }}
-//       transition={{ duration: 0.5 }}
-//       onAnimationComplete={(definition) => {
-//         if (definition === "exit") onDone();
-//       }}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }
-
-// type SpinMoveProps = {
-//   fromX: number;
-//   fromY: number;
-//   x: number;
-//   y: number;
-//   onDone?: () => void;
-//   delay: number;
-//   children: ReactNode;
-// };
-
-// function SpinMove(
-//   {
-//   fromX,
-//   fromY,
-//   x,
-//   y,
-//   onDone,
-//   delay,
-//   children,
-// }: SpinMoveProps
-// ) {
-//   useEffect(() => {
-//     const timer = setTimeout(() => {
-//       onDone?.();
-//     }, delay);
-
-//     return () => clearTimeout(timer);
-//   }, [onDone]);
-
-//   return (
-//     <motion.div
-//       css={css`
-//         position: absolute;
-//         width: 60px;
-//         height: 60px;
-//         pointer-events: none;
-//       `}
-//       initial={{
-//         left: `${fromX}vw`,
-//         top: `${fromY}vh`,
-//         opacity: 0,
-//         rotate: 0,
-//       }}
-//       animate={{
-//         left: `${x}vw`,
-//         top: `${y}vh`,
-//         opacity: 1,
-//         rotate: 360,
-//       }}
-//       exit={{ opacity: 0 }}
-//       transition={{ duration: 0.7 }}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }

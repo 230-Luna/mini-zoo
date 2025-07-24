@@ -31,7 +31,9 @@ export function SequenceMemoryGameIntroPage() {
         </AnimationWrapper>
       </Flex>
       <BottomButton
-        onClick={() => router.push(RouteUrls.sequenceMemoryGame.onboarding())}
+        onClick={() =>
+          router.push(RouteUrls.sequenceMemoryGame.tutorial.index())
+        }
       >
         시작하기
       </BottomButton>

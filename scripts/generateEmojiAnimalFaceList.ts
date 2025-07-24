@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
 
-const emojiDir = path.join(__dirname, "../public/emoji/animal/face");
+const emojiDir = path.join(__dirname, "../public/emoji");
 const outputFile = path.join(__dirname, "../src/emojiAnimalFaceList.ts");
 
 const files = fs
   .readdirSync(emojiDir)
-  .filter((file) => file.endsWith(".svg"))
+  .filter((file) => file.endsWith("Face.svg"))
   .map((file) => path.basename(file, ".svg"));
 
 const content = `// 자동 생성 파일 - 수정하지 마세요
