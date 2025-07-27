@@ -1,0 +1,27 @@
+// 자동 생성 파일 - 수정하지 마세요
+export const emojiAnimalFaceList: string[] = [
+  "birdFace",
+  "brownBearFace",
+  "catFace",
+  "chickenFace",
+  "chickFace",
+  "cowFace",
+  "dogFace",
+  "foxFace",
+  "frogFace",
+  "grayBearFace",
+  "hamsterFace",
+  "horseFace",
+  "koalaFace",
+  "lionFace",
+  "monkeyFace",
+  "mouseFace",
+  "pandaFace",
+  "penguinFace",
+  "pigFace",
+  "rabbitFace",
+  "tigerFace",
+  "uniconFace",
+  "wildBoarFace",
+  "wolfFace"
+];

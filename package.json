@@ -4,8 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "generate-animalface": "tsx scripts/generateEmojiAnimalFaceList.ts",
-    "prebuild": "npm run generate-animalface",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -31,7 +29,6 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "knip": "^5.61.3",
-    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }
