@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
+import { DEFAULT_ICON_SIZE } from "constants/layout";
 
 interface IconButtonProps extends ComponentProps<"button"> {
   onClick?: () => void;
@@ -13,7 +14,7 @@ export const IconButton = ({
   onClick,
   disabled = false,
   name,
-  size = 40,
+  size = DEFAULT_ICON_SIZE,
   ...props
 }: IconButtonProps) => {
   return (

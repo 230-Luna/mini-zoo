@@ -13,10 +13,12 @@
     "find-deadcode": "npx knip --include=files,exports,types,nsExports,nsTypes --tags=-knipignore"
   },
   "dependencies": {
+    "es-toolkit": "^1.39.8",
     "motion": "^12.23.6",
     "next": "15.3.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "ts-pattern": "^5.7.1"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.13.5",

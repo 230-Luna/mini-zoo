@@ -3,23 +3,19 @@ import { Flex } from "components/Flex";
 import { Icon } from "components/Icon";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
-import { SequenceMemoryGameTutorialGame } from "./tutorialGame";
+import { SequenceMemoryGameTutorialGame } from "./components/tutorialGame";
 import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 
 export function SequenceMemoryGameTutorialPage() {
   const router = useRouter();
 
-  const handleTutorialGameDone = () => {
-    router.push(RouteUrls.sequenceMemoryGame.tutorial.answer());
-  };
-
   return (
     <>
       <Spacing size={64} />
       <Flex justify="center">
         <Text typography="t1">연습하기</Text>
-        <Icon name="nuleongSoobookz" size={40} />
+        <Icon name="nuleongSoobookz" />
       </Flex>
       <Spacing size={16} />
       <Flex justify="center">
@@ -28,7 +24,11 @@ export function SequenceMemoryGameTutorialPage() {
         </AnimationWrapper>
       </Flex>
       <Spacing size={64} />
-      <SequenceMemoryGameTutorialGame onDone={handleTutorialGameDone} />
+      <SequenceMemoryGameTutorialGame
+        onDone={() =>
+          router.push(RouteUrls.sequenceMemoryGame.tutorial.answer())
+        }
+      />
     </>
   );
 }

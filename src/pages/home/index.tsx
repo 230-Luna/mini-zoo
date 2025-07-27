@@ -16,7 +16,7 @@ export function HomePage() {
       <AnimationWrapper type="zoomIn">
         <Flex justify="center">
           <Text typography="t1">미니쥬</Text>
-          <Icon name="nuleongSoobookz" size={40} />
+          <Icon name="nuleongSoobookz" />
         </Flex>
       </AnimationWrapper>
       <Spacing size={120} />

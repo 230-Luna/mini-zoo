@@ -16,7 +16,7 @@ export function SequenceMemoryGameIntroPage() {
       <Spacing size={64} />
       <Flex justify="center">
         <Text typography="t1">미니쥬</Text>
-        <Icon name="nuleongSoobookz" size={40} />
+        <Icon name="nuleongSoobookz" />
       </Flex>
       <Spacing size={16} />
       <Flex justify="center">

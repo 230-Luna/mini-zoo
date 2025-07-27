@@ -1,10 +1,8 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { css } from "@emotion/react";
-import { AnimalAppearanceInfo } from "pages/sequence-memory-game/tutorial/tutorialGame";
 import { getRandomPosition } from "pages/sequence-memory-game/common/utils/position";
-
-export type AnimationName = "appearAndVanish" | "spinMove";
+import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/Animations";
 
 export const SequenceMemoryAnimationWrapper = ({
   children,
@@ -44,23 +42,19 @@ function AppearAndVanish({
   y: number;
   onDone: () => void;
 }) {
-  useEffect(() => {
-    const timer = setTimeout(onDone, 1000);
-    return () => clearTimeout(timer);
-  }, [onDone]);
-
   return (
     <motion.div
       css={css`
         position: absolute;
-        left: ${x}vw;
-        top: ${y}vh;
         pointer-events: none;
+        left: 0;
+        top: 0;
       `}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 0] }}
+      initial={{ opacity: 0, x, y }}
+      animate={{ opacity: [1, 0] }}
       exit={{ opacity: 0 }}
       transition={{ duration: 2.5 }}
+      onAnimationComplete={() => onDone()}
     >
       {children}
     </motion.div>
@@ -79,32 +73,35 @@ function SpinMove({
   onDone: () => void;
 }) {
   const toRandom = getRandomPosition();
-
-  useEffect(() => {
-    const timer = setTimeout(onDone, 1000);
-    return () => clearTimeout(timer);
-  }, [onDone]);
+  const dx = toRandom.x - x;
+  const dy = toRandom.y - y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  const speed = 100;
+  const duration = distance / speed;
 
   return (
     <motion.div
       css={css`
         position: absolute;
         pointer-events: none;
+        left: 0;
+        top: 0;
       `}
       initial={{
-        left: `${x}vw`,
-        top: `${y}vh`,
         opacity: 0,
         rotate: 0,
+        x: x,
+        y: y,
       }}
       animate={{
-        left: `${toRandom.x}vw`,
-        top: `${toRandom.y}vh`,
-        opacity: 1,
+        x: toRandom.x,
+        y: toRandom.y,
+        opacity: [1, 0],
         rotate: 360,
       }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5 }}
+      transition={{ duration: Math.min(duration, 2000), ease: "linear" }}
+      onAnimationComplete={() => onDone()}
     >
       {children}
     </motion.div>

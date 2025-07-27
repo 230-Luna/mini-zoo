@@ -1,13 +1,22 @@
-export const getRandomPosition = () => {
-  const x = Math.floor(Math.random() * 80) + 10;
-  const y = Math.floor(Math.random() * 70) + 10;
+import {
+  DEFAULT_ICON_SIZE,
+  GAME_BOX_HEIGHT,
+  PAGE_PADDING,
+} from "constants/layout";
 
+export const getRandomPosition = () => {
   if (typeof window === "undefined") {
-    return { x, y: 50 };
+    return { x: 0, y: 50 };
   }
 
+  const x =
+    Math.floor(
+      Math.random() * (window.innerWidth - 2 * PAGE_PADDING - DEFAULT_ICON_SIZE)
+    ) + PAGE_PADDING;
+  const y = Math.floor(Math.random() * GAME_BOX_HEIGHT - DEFAULT_ICON_SIZE);
+
   return {
-    x: ((x * (window.innerHeight - 140)) / 100 / window.innerHeight) * 100,
-    y: ((y * (window.innerHeight - 140)) / 100 / window.innerHeight) * 100,
+    x,
+    y,
   };
 };

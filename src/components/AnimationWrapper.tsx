@@ -112,7 +112,7 @@ function FlipItemsAnimation({
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.7 }}
         >
-          {children}
+          {childArray[currentIndex]}
         </motion.div>
       </AnimatePresence>
     </>
