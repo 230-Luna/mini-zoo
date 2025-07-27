@@ -2,12 +2,12 @@ import { useEffect } from "react";
 
 export function useTimeout(callback: () => void, delay: number) {
   useEffect(() => {
-    const delayTime = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       callback();
     }, delay);
 
     return () => {
-      clearTimeout(delayTime);
+      clearTimeout(timeoutId);
     };
   }, []);
 }

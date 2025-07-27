@@ -5,9 +5,9 @@ import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/A
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
 
 export const SequenceMemoryGameTutorialGame = ({
-  onDone,
+  onComplete,
 }: {
-  onDone: () => void;
+  onComplete: () => void;
 }) => {
   const [showAnimalList, setSHowAnimalList] = useState<
     Record<string, AnimalAppearanceInfo>
@@ -38,9 +38,9 @@ export const SequenceMemoryGameTutorialGame = ({
     if (
       Object.values(showAnimalList).every((animal) => animal.isDone === true)
     ) {
-      onDone();
+      onComplete();
     }
-  }, [showAnimalList, onDone]);
+  }, [showAnimalList, onComplete]);
 
   return (
     <DottedBox height={GAME_BOX_HEIGHT}>
@@ -48,7 +48,7 @@ export const SequenceMemoryGameTutorialGame = ({
         <AnimatedAnimalIcon
           key={animalAppearanceInfo.icon}
           info={animalAppearanceInfo}
-          onDone={() => {
+          onAnimationComplete={() => {
             setSHowAnimalList((prev) => ({
               ...prev,
               [id]: { ...animalAppearanceInfo, isDone: true },

@@ -6,17 +6,20 @@ import { useTimeout } from "hooks/useTimeout";
 
 export const AnimatedAnimalIcon = ({
   info,
-  onDone,
+  onAnimationComplete,
 }: {
   info: AnimalAppearanceInfo;
-  onDone: () => void;
+  onAnimationComplete: () => void;
 }) => {
   const [show, setShow] = useState(false);
 
   useTimeout(() => setShow(true), info.delay ?? 0);
 
   return show ? (
-    <SequenceMemoryAnimationWrapper info={info} onDone={onDone}>
+    <SequenceMemoryAnimationWrapper
+      info={info}
+      onAnimationComplete={onAnimationComplete}
+    >
       <Icon name={info.icon} />
     </SequenceMemoryAnimationWrapper>
   ) : null;

@@ -6,7 +6,7 @@ import {
 
 export const getRandomPosition = () => {
   if (typeof window === "undefined") {
-    return { x: 0, y: 50 };
+    return { x: 0, y: 0 };
   }
 
   const x =

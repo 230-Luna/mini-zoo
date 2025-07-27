@@ -25,7 +25,7 @@ export function SequenceMemoryGameTutorialPage() {
       </Flex>
       <Spacing size={64} />
       <SequenceMemoryGameTutorialGame
-        onDone={() =>
+        onComplete={() =>
           router.push(RouteUrls.sequenceMemoryGame.tutorial.answer())
         }
       />

@@ -7,22 +7,26 @@ import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/A
 export const SequenceMemoryAnimationWrapper = ({
   children,
   info,
-  onDone,
+  onAnimationComplete,
 }: {
   children: ReactNode;
   info: AnimalAppearanceInfo;
-  onDone: () => void;
+  onAnimationComplete: () => void;
 }) => {
   if (info.animationName === "appearAndVanish") {
     return (
-      <AppearAndVanish x={info.x} y={info.y} onDone={onDone}>
+      <AppearAndVanish
+        x={info.x}
+        y={info.y}
+        onAnimationComplete={onAnimationComplete}
+      >
         {children}
       </AppearAndVanish>
     );
   }
   if (info.animationName === "spinMove") {
     return (
-      <SpinMove x={info.x} y={info.y} onDone={onDone}>
+      <SpinMove x={info.x} y={info.y} onAnimationComplete={onAnimationComplete}>
         {children}
       </SpinMove>
     );
@@ -35,12 +39,12 @@ function AppearAndVanish({
   children,
   x,
   y,
-  onDone,
+  onAnimationComplete,
 }: {
   children: ReactNode;
   x: number;
   y: number;
-  onDone: () => void;
+  onAnimationComplete: () => void;
 }) {
   return (
     <motion.div
@@ -54,7 +58,7 @@ function AppearAndVanish({
       animate={{ opacity: [1, 0] }}
       exit={{ opacity: 0 }}
       transition={{ duration: 2.5 }}
-      onAnimationComplete={() => onDone()}
+      onAnimationComplete={() => onAnimationComplete()}
     >
       {children}
     </motion.div>
@@ -65,12 +69,12 @@ function SpinMove({
   children,
   x,
   y,
-  onDone,
+  onAnimationComplete,
 }: {
   children: ReactNode;
   x: number;
   y: number;
-  onDone: () => void;
+  onAnimationComplete: () => void;
 }) {
   const toRandom = getRandomPosition();
   const dx = toRandom.x - x;
@@ -101,7 +105,7 @@ function SpinMove({
       }}
       exit={{ opacity: 0 }}
       transition={{ duration: Math.min(duration, 2000), ease: "linear" }}
-      onAnimationComplete={() => onDone()}
+      onAnimationComplete={() => onAnimationComplete()}
     >
       {children}
     </motion.div>
