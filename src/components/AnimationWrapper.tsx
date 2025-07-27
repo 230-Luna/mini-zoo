@@ -82,7 +82,7 @@ function ScaleAnimation({
 
 function FlipItemsAnimation({
   children,
-  interval = 2000,
+  interval = 1500,
 }: {
   children: ReactNode;
   interval?: number;

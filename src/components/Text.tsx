@@ -14,16 +14,16 @@ interface TextProps extends ComponentProps<"span"> {
   color?: string;
 }
 
-export const Text = ({
+export function Text({
   children,
   typography = "t2",
   color = colors.brown900,
   ...props
-}: TextProps) => {
+}: TextProps) {
   const style = { color, fontSize: fontSize[typography] };
   return (
     <span css={{ ...style }} {...props}>
       {children}
     </span>
   );
-};
+}

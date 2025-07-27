@@ -10,14 +10,14 @@ export interface ButtonProps extends ComponentProps<"button"> {
   disableHover?: boolean;
 }
 
-export const Button = ({
+export function Button({
   children,
 
   loading = false,
   onClick,
   disableHover = true,
   ...props
-}: ButtonProps) => {
+}: ButtonProps) {
   return (
     <AnimationWrapper type="lowScaleOnTap">
       <button
@@ -39,7 +39,7 @@ export const Button = ({
       </button>
     </AnimationWrapper>
   );
-};
+}
 
 const buttonStyle = ({
   disabled,

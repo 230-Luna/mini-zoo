@@ -10,13 +10,13 @@ interface IconButtonProps extends ComponentProps<"button"> {
   size?: number;
 }
 
-export const IconButton = ({
+export function IconButton({
   onClick,
   disabled = false,
   name,
   size = DEFAULT_ICON_SIZE,
   ...props
-}: IconButtonProps) => {
+}: IconButtonProps) {
   return (
     <Button
       onClick={onClick}
@@ -33,4 +33,4 @@ export const IconButton = ({
       <Icon name={name} size={size} />
     </Button>
   );
-};
+}

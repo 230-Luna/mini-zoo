@@ -2,7 +2,7 @@ import { Button, ButtonProps } from "components/Button";
 import { PAGE_PADDING, PAGE_MAX_WIDTH } from "constants/layout";
 import { px } from "./../utils/css-unit";
 
-export const BottomButton = ({ children, ...props }: ButtonProps) => {
+export function BottomButton({ children, ...props }: ButtonProps) {
   return (
     <div
       css={{
@@ -15,4 +15,4 @@ export const BottomButton = ({ children, ...props }: ButtonProps) => {
       <Button {...props}>{children}</Button>
     </div>
   );
-};
+}

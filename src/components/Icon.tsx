@@ -7,11 +7,7 @@ interface IconProps extends Omit<ComponentProps<typeof Image>, "src" | "alt"> {
   size?: number;
 }
 
-export const Icon = ({
-  name,
-  size = DEFAULT_ICON_SIZE,
-  ...props
-}: IconProps) => {
+export function Icon({ name, size = DEFAULT_ICON_SIZE, ...props }: IconProps) {
   return (
     <Image
       src={`/emoji/${name}.svg`}
@@ -22,4 +18,4 @@ export const Icon = ({
       {...props}
     />
   );
-};
+}

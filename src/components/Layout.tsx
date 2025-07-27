@@ -2,7 +2,7 @@ import { PAGE_PADDING, PAGE_MAX_WIDTH } from "constants/layout";
 import { ReactNode } from "react";
 import { px } from "./../utils/css-unit";
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       css={{
@@ -14,4 +14,4 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       {children}
     </div>
   );
-};
+}

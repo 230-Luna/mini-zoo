@@ -15,13 +15,13 @@ interface CardProps extends ComponentProps<"div"> {
   thumbnail?: string;
 }
 
-export const Card = ({
+export function Card({
   size = "standard",
   title,
   description,
   thumbnail = "questionMark",
   ...props
-}: CardProps) => {
+}: CardProps) {
   return (
     <AnimationWrapper type="highScaleOnTap">
       <div
@@ -45,4 +45,4 @@ export const Card = ({
       </div>
     </AnimationWrapper>
   );
-};
+}
