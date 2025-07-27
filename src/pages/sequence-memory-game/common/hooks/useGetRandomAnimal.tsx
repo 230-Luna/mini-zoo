@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { emojiAnimalFaceList } from "emojiAnimalFaceList";
+import { emojiAnimalFaceList } from "pages/sequence-memory-game/common/constants/emojiAnimalFaceList";
 
 export const useGetRandomAnimalIcon = () => {
   const [randomAnimal, setRandomAnimal] = useState<string>("");

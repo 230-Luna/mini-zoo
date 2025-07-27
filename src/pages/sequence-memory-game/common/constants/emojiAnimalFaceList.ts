@@ -1,4 +1,3 @@
-// 자동 생성 파일 - 수정하지 마세요
 export const emojiAnimalFaceList: string[] = [
   "birdFace",
   "brownBearFace",
@@ -23,5 +22,5 @@ export const emojiAnimalFaceList: string[] = [
   "tigerFace",
   "uniconFace",
   "wildBoarFace",
-  "wolfFace"
+  "wolfFace",
 ];
