@@ -2,7 +2,10 @@ export const RouteUrls = {
   home: () => "/",
   sequenceMemoryGame: {
     intro: () => "/sequence-memory-game/intro",
-    onboarding: () => "/sequence-memory-game/onboarding",
+    tutorial: {
+      index: () => "/sequence-memory-game/tutorial",
+      answer: () => "/sequence-memory-game/tutorial/answer",
+    },
     playing: () => "/sequence-memory-game/playing",
   },
 } as const;

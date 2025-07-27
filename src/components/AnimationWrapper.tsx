@@ -41,7 +41,7 @@ function ZoomInAnimation({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     async function sequence() {
-      await controls.start({ scale: 2 }, { type: "spring" });
+      await controls.start({ scale: 1.3 }, { type: "spring" });
       await controls.start({ scale: 1 }, { type: "spring" });
     }
 
@@ -49,7 +49,7 @@ function ZoomInAnimation({ children }: { children: ReactNode }) {
   }, [controls]);
 
   return (
-    <motion.div initial={{ scale: 0.2 }} animate={controls}>
+    <motion.div initial={{ scale: 0.1 }} animate={controls}>
       {children}
     </motion.div>
   );
@@ -110,9 +110,9 @@ function FlipItemsAnimation({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.7 }}
         >
-          {children}
+          {childArray[currentIndex]}
         </motion.div>
       </AnimatePresence>
     </>

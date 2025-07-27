@@ -1,42 +1,34 @@
 import { AnimationWrapper } from "components/AnimationWrapper";
-import { BottomButton } from "components/BottomButton";
 import { Flex } from "components/Flex";
 import { Icon } from "components/Icon";
-
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
+import { SequenceMemoryGameTutorialGame } from "./components/tutorialGame";
 import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 
-export function SequenceMemoryGameIntroPage() {
+export function SequenceMemoryGameTutorialPage() {
   const router = useRouter();
 
   return (
     <>
       <Spacing size={64} />
       <Flex justify="center">
-        <Text typography="t1">미니쥬</Text>
+        <Text typography="t1">연습하기</Text>
         <Icon name="nuleongSoobookz" />
       </Flex>
       <Spacing size={16} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
-          <Text typography="t2">순서 기억하기</Text>
+          <Text typography="t2">나타나는 동물들의 순서를 기억하세요</Text>
         </AnimationWrapper>
       </Flex>
-      <Spacing size={140} />
-      <Flex justify="center">
-        <AnimationWrapper type="shake">
-          <Icon name="newlyHatchedChick" size={100} />
-        </AnimationWrapper>
-      </Flex>
-      <BottomButton
-        onClick={() =>
-          router.push(RouteUrls.sequenceMemoryGame.tutorial.index())
+      <Spacing size={64} />
+      <SequenceMemoryGameTutorialGame
+        onComplete={() =>
+          router.push(RouteUrls.sequenceMemoryGame.tutorial.answer())
         }
-      >
-        시작하기
-      </BottomButton>
+      />
     </>
   );
 }

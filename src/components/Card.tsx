@@ -39,7 +39,7 @@ export const Card = ({
           <Text typography="t3">{description}</Text>
         )}
         <Spacing size={4} />
-        <Icon name={thumbnail} size={40} />
+        <Icon name={thumbnail} />
         <Spacing size={8} />
         <Text typography="t2">{title}</Text>
       </div>
