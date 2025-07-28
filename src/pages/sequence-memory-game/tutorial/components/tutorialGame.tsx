@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TUTORIAL_GAME_BOX_HEIGHT } from "constants/layout";
+import { GAME_BOX_HEIGHT } from "constants/layout";
 import { AnimatedAnimalIcon } from "pages/sequence-memory-game/common/components/AnimatedAnimalIcon";
 import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/Animations";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
@@ -43,7 +43,7 @@ export const SequenceMemoryGameTutorialGame = ({
   }, [showAnimalList, onComplete]);
 
   return (
-    <DottedBox height={TUTORIAL_GAME_BOX_HEIGHT}>
+    <DottedBox height={GAME_BOX_HEIGHT}>
       {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
         <AnimatedAnimalIcon
           key={animalAppearanceInfo.icon}

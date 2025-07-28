@@ -2,7 +2,7 @@ import { AnimationWrapper } from "components/AnimationWrapper";
 import { Flex } from "components/Flex";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { match } from "ts-pattern";
 import { DottedBox } from "../common/components/DottedBox";
 import { useTimeout } from "hooks/useTimeout";
@@ -19,89 +19,52 @@ import { chunk } from "es-toolkit";
 import { noop } from "utils/function";
 
 export function SequenceMemoryGamePlayingPage() {
-  const [stage, setStage] = useState<"STAGE1" | "STAGE2" | "STAGE3">("STAGE1");
+  const [level, setLevel] = useState<number>(1);
   const [score, setScore] = useState(0);
   const router = useRouter();
 
+  useLayoutEffect(() => {}, [level]);
+
   return (
     <>
-      {match(stage)
-        .with("STAGE1", () => (
-          <StageOne
-            onComplete={({ gameResult }) => {
-              const maxScore = sequenceMemoryGameScoreStorage.get();
+      <Spacing size={64} />
+      <Flex justify="center">
+        <Text typography="t1">순서 기억하기{level}</Text>
+        <Icon name="nuleongSoobookz" />
+      </Flex>
+      <Spacing size={16} />
+      <Stage
+        key={level}
+        level={level}
+        onComplete={({ gameResult }) => {
+          const maxScore = sequenceMemoryGameScoreStorage.get();
 
-              if (gameResult === "SUCCESS") {
-                const currentScore = score + 1;
+          if (gameResult === "SUCCESS") {
+            const currentScore = score + 1;
 
-                if (maxScore == null || maxScore < currentScore) {
-                  sequenceMemoryGameScoreStorage.set(currentScore);
-                }
+            if (maxScore == null || maxScore < currentScore) {
+              sequenceMemoryGameScoreStorage.set(currentScore);
+            }
 
-                setScore(currentScore);
-                setStage("STAGE2");
-              } else {
-                if (maxScore == null) {
-                  sequenceMemoryGameScoreStorage.set(score);
-                }
-                router.push(RouteUrls.home());
-              }
-            }}
-          />
-        ))
-        .with("STAGE2", () => (
-          <StageTwo
-            onComplete={({ gameResult }) => {
-              const maxScore = sequenceMemoryGameScoreStorage.get();
-
-              if (gameResult === "SUCCESS") {
-                const currentScore = score + 1;
-
-                if (maxScore == null || maxScore < currentScore) {
-                  sequenceMemoryGameScoreStorage.set(currentScore);
-                }
-
-                setScore(currentScore);
-                setStage("STAGE3");
-              } else {
-                if (maxScore == null) {
-                  sequenceMemoryGameScoreStorage.set(score);
-                }
-                router.push(RouteUrls.home());
-              }
-            }}
-          />
-        ))
-        .with("STAGE3", () => (
-          <StageThree
-            onComplete={({ gameResult }) => {
-              const maxScore = sequenceMemoryGameScoreStorage.get();
-
-              if (gameResult === "SUCCESS") {
-                const currentScore = score + 1;
-
-                if (maxScore == null || maxScore < currentScore) {
-                  sequenceMemoryGameScoreStorage.set(currentScore);
-                }
-
-                router.push(RouteUrls.home());
-              } else {
-                if (maxScore == null) {
-                  sequenceMemoryGameScoreStorage.set(score);
-                }
-                router.push(RouteUrls.home());
-              }
-            }}
-          />
-        ))
-        .otherwise(() => null)}
+            setScore(currentScore);
+            setLevel((prev) => prev + 1);
+          } else {
+            if (maxScore == null) {
+              sequenceMemoryGameScoreStorage.set(score);
+            }
+            router.push(RouteUrls.home());
+          }
+        }}
+      />
     </>
   );
 }
 
-function StageOne({
+function Stage({
+  level,
   onComplete,
 }: {
+  level: number;
   onComplete: (params: { gameResult: "SUCCESS" | "FAIL" }) => void;
 }) {
   const [gameFlow, setGameFlow] = useState<
@@ -112,10 +75,10 @@ function StageOne({
     <>
       {match(gameFlow)
         .with("LOADING", () => (
-          <Loading onComplete={() => setGameFlow("QUESTION")} level={1} />
+          <Loading onComplete={() => setGameFlow("QUESTION")} level={level} />
         ))
         .with("QUESTION", () => (
-          <Question onComplete={() => setGameFlow("ANSWER")} level={1} />
+          <Question onComplete={() => setGameFlow("ANSWER")} level={level} />
         ))
         .with("ANSWER", () => (
           <Answer
@@ -125,91 +88,7 @@ function StageOne({
             onWrong={() => {
               setGameFlow("FAIL");
             }}
-            level={3}
-          />
-        ))
-        .with("SUCCESS", () => (
-          <SucessResult
-            onComplete={() => onComplete({ gameResult: "SUCCESS" })}
-          />
-        ))
-        .with("FAIL", () => (
-          <FailResult onComplete={() => onComplete({ gameResult: "FAIL" })} />
-        ))
-        .otherwise(() => null)}
-    </>
-  );
-}
-
-function StageTwo({
-  onComplete,
-}: {
-  onComplete: (params: { gameResult: "SUCCESS" | "FAIL" }) => void;
-}) {
-  const [gameFlow, setGameFlow] = useState<
-    "LOADING" | "QUESTION" | "ANSWER" | "SUCCESS" | "FAIL"
-  >("LOADING");
-
-  return (
-    <>
-      {match(gameFlow)
-        .with("LOADING", () => (
-          <Loading onComplete={() => setGameFlow("QUESTION")} level={2} />
-        ))
-        .with("QUESTION", () => (
-          <Question onComplete={() => setGameFlow("ANSWER")} level={2} />
-        ))
-        .with("ANSWER", () => (
-          <Answer
-            onCorrect={() => {
-              setGameFlow("SUCCESS");
-            }}
-            onWrong={() => {
-              setGameFlow("FAIL");
-            }}
-            level={3}
-          />
-        ))
-        .with("SUCCESS", () => (
-          <SucessResult
-            onComplete={() => onComplete({ gameResult: "SUCCESS" })}
-          />
-        ))
-        .with("FAIL", () => (
-          <FailResult onComplete={() => onComplete({ gameResult: "FAIL" })} />
-        ))
-        .otherwise(() => null)}
-    </>
-  );
-}
-
-function StageThree({
-  onComplete,
-}: {
-  onComplete: (params: { gameResult: "SUCCESS" | "FAIL" }) => void;
-}) {
-  const [gameFlow, setGameFlow] = useState<
-    "LOADING" | "QUESTION" | "ANSWER" | "SUCCESS" | "FAIL"
-  >("LOADING");
-
-  return (
-    <>
-      {match(gameFlow)
-        .with("LOADING", () => (
-          <Loading onComplete={() => setGameFlow("QUESTION")} level={3} />
-        ))
-        .with("QUESTION", () => (
-          <Question onComplete={() => setGameFlow("ANSWER")} level={3} />
-        ))
-        .with("ANSWER", () => (
-          <Answer
-            onCorrect={() => {
-              setGameFlow("SUCCESS");
-            }}
-            onWrong={() => {
-              setGameFlow("FAIL");
-            }}
-            level={3}
+            level={level}
           />
         ))
         .with("SUCCESS", () => (
@@ -236,7 +115,7 @@ function Loading({
 
   return (
     <>
-      <Spacing size={180} />
+      <Spacing size={120} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
           <Text typography="t1">{level}단계~</Text>
@@ -294,7 +173,7 @@ function Question({
 
   return (
     <>
-      <Spacing size={120} />
+      <Spacing size={84} />
       <DottedBox height={GAME_BOX_HEIGHT}>
         {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
           <AnimatedAnimalIcon
@@ -324,7 +203,6 @@ function Answer({
 }) {
   return (
     <>
-      <Spacing size={120} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
           <Text typography="t2">동물을 순서대로 선택해주세요</Text>
@@ -383,7 +261,6 @@ function AnswerOptions({
 function SucessResult({ onComplete }: { onComplete: () => void }) {
   return (
     <>
-      <Spacing size={120} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
           <Text typography="t2">잘했어요!</Text>
@@ -395,7 +272,7 @@ function SucessResult({ onComplete }: { onComplete: () => void }) {
           <Icon name="partyPopper" />
         </AnimationWrapper>
       </Flex>
-      <Spacing size={120} />
+      <Spacing size={28} />
       <Flex justify="center">
         <Text typography="t1">+1</Text>
       </Flex>
@@ -407,7 +284,6 @@ function SucessResult({ onComplete }: { onComplete: () => void }) {
 function FailResult({ onComplete }: { onComplete: () => void }) {
   return (
     <>
-      <Spacing size={180} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
           <Text typography="t2">아쉬워요</Text>
@@ -419,7 +295,7 @@ function FailResult({ onComplete }: { onComplete: () => void }) {
           <Icon name="smilingFaceWithOpenMouthAndColdSweat" />
         </AnimationWrapper>
       </Flex>
-      <Spacing size={120} />
+      <Spacing size={28} />
       <Flex justify="center">
         <Text typography="t1">-1</Text>
       </Flex>
