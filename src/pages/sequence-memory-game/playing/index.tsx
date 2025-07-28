@@ -2,7 +2,7 @@ import { AnimationWrapper } from "components/AnimationWrapper";
 import { Flex } from "components/Flex";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { match } from "ts-pattern";
 import { DottedBox } from "../common/components/DottedBox";
 import { useTimeout } from "hooks/useTimeout";
@@ -13,7 +13,7 @@ import { RouteUrls } from "utils/router";
 import { sequenceMemoryGameScoreStorage } from "../common/utils/score-storage";
 import { ANSWER_BOX_HEIGHT, GAME_BOX_HEIGHT } from "constants/layout";
 import { AnimatedAnimalIcon } from "../common/components/AnimatedAnimalIcon";
-import { AnimalAppearanceInfo } from "../common/models/Animations";
+import { AnimatedAnimalInfo } from "../common/models/Animations";
 import { IconButton } from "components/IconButton";
 import { chunk } from "es-toolkit";
 import { noop } from "utils/function";
@@ -23,13 +23,11 @@ export function SequenceMemoryGamePlayingPage() {
   const [score, setScore] = useState(0);
   const router = useRouter();
 
-  useLayoutEffect(() => {}, [level]);
-
   return (
     <>
       <Spacing size={64} />
       <Flex justify="center">
-        <Text typography="t1">순서 기억하기{level}</Text>
+        <Text typography="t1">순서 기억하기</Text>
         <Icon name="nuleongSoobookz" />
       </Flex>
       <Spacing size={16} />
@@ -139,7 +137,7 @@ function Question({
   level: number;
 }) {
   const [showAnimalList, setSHowAnimalList] = useState<
-    Record<string, AnimalAppearanceInfo>
+    Record<string, AnimatedAnimalInfo>
   >(() => {
     return {
       "1": {
@@ -147,8 +145,8 @@ function Question({
         x: 250,
         y: 100,
         icon: "hamsterFace",
-        animationName: "appearAndVanish",
-        delay: 2000,
+        animationName: "fadeInOut",
+        delay: 1500,
         isDone: false,
       },
       "2": {
@@ -156,8 +154,8 @@ function Question({
         x: 50,
         y: 150,
         icon: "brownBearFace",
-        animationName: "spinMove",
-        delay: 3500,
+        animationName: "fadeInOut",
+        delay: 3000,
         isDone: false,
       },
     };

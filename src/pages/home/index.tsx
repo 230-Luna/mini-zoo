@@ -10,6 +10,8 @@ import { sequenceMemoryGameScoreStorage } from "pages/sequence-memory-game/commo
 import { RouteUrls } from "utils/router";
 
 export function HomePage() {
+  const router = useRouter();
+
   return (
     <>
       <Spacing size={64} />
@@ -32,7 +34,11 @@ export function HomePage() {
         >
           <SequenceMemoryGameCard />
         </ClientOnly>
-        <Card title="???" thumbnail="questionMark" />
+        <Card
+          title="???"
+          thumbnail="questionMark"
+          onClick={() => router.push(RouteUrls.test())}
+        />
       </Flex>
     </>
   );

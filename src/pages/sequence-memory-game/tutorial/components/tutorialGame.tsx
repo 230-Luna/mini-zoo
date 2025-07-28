@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GAME_BOX_HEIGHT } from "constants/layout";
 import { AnimatedAnimalIcon } from "pages/sequence-memory-game/common/components/AnimatedAnimalIcon";
-import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/Animations";
+import { AnimatedAnimalInfo } from "pages/sequence-memory-game/common/models/Animations";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
 
 export const SequenceMemoryGameTutorialGame = ({
@@ -10,25 +10,27 @@ export const SequenceMemoryGameTutorialGame = ({
   onComplete: () => void;
 }) => {
   const [showAnimalList, setSHowAnimalList] = useState<
-    Record<string, AnimalAppearanceInfo>
+    Record<string, AnimatedAnimalInfo>
   >(() => {
     return {
       "1": {
         id: "1",
-        x: 250,
+        x: 200,
         y: 100,
         icon: "hamsterFace",
-        animationName: "appearAndVanish",
-        delay: 2000,
+        animationName: "fadeInOut",
+        delay: 1500,
+        duration: 1.7,
         isDone: false,
       },
       "2": {
         id: "2",
-        x: 50,
-        y: 150,
+        x: 80,
+        y: 200,
         icon: "brownBearFace",
-        animationName: "spinMove",
-        delay: 3500,
+        animationName: "fadeInOut",
+        delay: 3200,
+        duration: 1.7,
         isDone: false,
       },
     };

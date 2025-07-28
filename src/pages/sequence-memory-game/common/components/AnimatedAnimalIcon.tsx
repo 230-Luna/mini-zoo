@@ -1,26 +1,26 @@
 import { Icon } from "components/Icon";
-import { SequenceMemoryAnimationWrapper } from "./SequenceMemoryAnimationWrapper";
-import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/Animations";
+import { AnimationWrapper } from "./AnimationWrapper";
+import { AnimatedAnimalInfo } from "pages/sequence-memory-game/common/models/Animations";
 import { useState } from "react";
 import { useTimeout } from "hooks/useTimeout";
 
-export const AnimatedAnimalIcon = ({
-  info,
+export function AnimatedAnimalIcon({
+  animatedAnimalInfo,
   onAnimationComplete,
 }: {
-  info: AnimalAppearanceInfo;
+  animatedAnimalInfo: AnimatedAnimalInfo;
   onAnimationComplete: () => void;
-}) => {
+}) {
   const [show, setShow] = useState(false);
 
-  useTimeout(() => setShow(true), info.delay ?? 0);
+  useTimeout(() => setShow(true), animatedAnimalInfo.delay ?? 0);
 
   return show ? (
-    <SequenceMemoryAnimationWrapper
-      info={info}
+    <AnimationWrapper
+      animatedAnimalInfo={animatedAnimalInfo}
       onAnimationComplete={onAnimationComplete}
     >
-      <Icon name={info.icon} />
-    </SequenceMemoryAnimationWrapper>
+      <Icon name={animatedAnimalInfo.icon} />
+    </AnimationWrapper>
   ) : null;
-};
+}

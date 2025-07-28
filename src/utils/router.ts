@@ -8,4 +8,5 @@ export const RouteUrls = {
     },
     playing: () => "/sequence-memory-game/playing",
   },
+  test: () => "/test",
 } as const;

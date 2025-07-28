@@ -23,7 +23,6 @@
     "?(*.)config.*",
     "server.{js,mjs}",
     ".next/**/*",
-    "src/components/IconButton.tsx",
     "src/utils/assert.ts"
   ]
 }
