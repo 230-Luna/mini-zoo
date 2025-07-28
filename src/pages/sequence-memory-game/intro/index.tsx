@@ -7,6 +7,7 @@ import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
 import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
+import { sequenceMemoryGameScoreStorage } from "../common/utils/score-storage";
 
 export function SequenceMemoryGameIntroPage() {
   const router = useRouter();
@@ -31,9 +32,13 @@ export function SequenceMemoryGameIntroPage() {
         </AnimationWrapper>
       </Flex>
       <BottomButton
-        onClick={() =>
-          router.push(RouteUrls.sequenceMemoryGame.tutorial.index())
-        }
+        onClick={() => {
+          if (sequenceMemoryGameScoreStorage.get() === null) {
+            router.push(RouteUrls.sequenceMemoryGame.tutorial.index());
+          } else {
+            router.push(RouteUrls.sequenceMemoryGame.playing());
+          }
+        }}
       >
         시작하기
       </BottomButton>
