@@ -1,5 +1,6 @@
 import {
   DEFAULT_ICON_SIZE,
+  DOTTEDBOX_BORDER,
   GAME_BOX_HEIGHT,
   PAGE_PADDING,
 } from "constants/layout";
@@ -12,16 +13,15 @@ export const getRandomPosition = () => {
     return { x: 0, y: 0 };
   }
 
-  const x =
-    Math.floor(
-      Math.random() * (window.innerWidth - 2 * PAGE_PADDING - DEFAULT_ICON_SIZE)
-    ) + PAGE_PADDING;
-  const y = Math.floor(Math.random() * GAME_BOX_HEIGHT - DEFAULT_ICON_SIZE);
+  const containerWidth =
+    window.innerWidth - (PAGE_PADDING + DOTTEDBOX_BORDER) * 2;
+  const maxX = containerWidth - DEFAULT_ICON_SIZE;
+  const maxY = GAME_BOX_HEIGHT - DEFAULT_ICON_SIZE;
 
-  return {
-    x,
-    y,
-  };
+  const x = Math.floor(Math.random() * (maxX + 1));
+  const y = Math.floor(Math.random() * (maxY + 1));
+
+  return { x, y };
 };
 
 export const getDurationByLevel = (level: number): number => {

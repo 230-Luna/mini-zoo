@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  getAmplitudeByLevel,
-  getDurationByLevel,
-  getSpeedByLevel,
-} from "pages/sequence-memory-game/common/utils/animationModifiers";
+import { getAmplitudeByLevel } from "pages/sequence-memory-game/common/utils/animationModifiers";
 import {
   AnimatedAnimalInfo,
   AppearanceEffectProps,
@@ -19,18 +15,15 @@ export function AnimationWrapper({
   onAnimationComplete: () => void;
   children: React.ReactNode;
 }) {
-  const duration = getDurationByLevel(animatedAnimalInfo.level);
-  const speed = getSpeedByLevel(animatedAnimalInfo.level);
-
   return (
     <MovementEffectWrapper
       effect={animatedAnimalInfo.movementEffect}
-      speed={speed}
-      duration={duration}
+      speed={animatedAnimalInfo.speed}
+      duration={animatedAnimalInfo.duration}
     >
       <AppearanceEffectWrapper
         effect={animatedAnimalInfo.appearanceEffect}
-        duration={duration}
+        duration={animatedAnimalInfo.duration}
         onComplete={onAnimationComplete}
       >
         <div
@@ -72,7 +65,7 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           initial={{ scale: 0 }}
-          animate={{ scale: [0, 1.2, 1] }}
+          animate={{ scale: [0, 2, 1], opacity: [0, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -84,7 +77,7 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           initial={{ scale: 2 }}
-          animate={{ scale: [2, 1.2, 1] }}
+          animate={{ scale: [2, 0.5, 1] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -92,11 +85,38 @@ function AppearanceEffectWrapper({
         </motion.div>
       );
 
-    case "skew":
+    case "skewXY":
       return (
         <motion.div
-          initial={{ skewX: "15deg" }}
-          animate={{ skewX: ["15deg", "-15deg", "0deg"] }}
+          initial={{ skewX: "25deg", skewY: "25deg" }}
+          animate={{
+            skewX: ["25eg", "-25deg", "0deg"],
+            skewY: ["25deg", "-25deg", "0deg"],
+          }}
+          transition={{ duration: fadeDuration }}
+          onAnimationComplete={onComplete}
+        >
+          {children}
+        </motion.div>
+      );
+
+    case "skewX":
+      return (
+        <motion.div
+          initial={{ skewX: "30deg" }}
+          animate={{ skewX: ["30deg", "-30deg", "0deg"] }}
+          transition={{ duration: fadeDuration }}
+          onAnimationComplete={onComplete}
+        >
+          {children}
+        </motion.div>
+      );
+
+    case "skewY":
+      return (
+        <motion.div
+          initial={{ skewY: "30deg" }}
+          animate={{ skewY: ["30deg", "-30deg", "0deg"] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -108,7 +128,9 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           animate={{
-            x: [-5, 5, -5, 5, 0],
+            x: [-10, 10, -5, 5, 0],
+            y: [-10, 10, -5, 5, 0],
+            opacity: [1, 1, 1, 1, 0],
           }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
@@ -120,7 +142,7 @@ function AppearanceEffectWrapper({
     case "rotateX":
       return (
         <motion.div
-          animate={{ rotateX: [0, 180, 360] }}
+          animate={{ rotateX: [0, 50, 0], opacity: [1, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -131,7 +153,7 @@ function AppearanceEffectWrapper({
     case "rotateY":
       return (
         <motion.div
-          animate={{ rotateY: [0, 180, 360] }}
+          animate={{ rotateY: [0, 180, 360], opacity: [1, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -151,7 +173,7 @@ function AppearanceEffectWrapper({
       );
 
     default:
-      return <>{children}</>;
+      throw new Error("정의되지 않은 애니메이션 타입입니다");
   }
 }
 
@@ -161,7 +183,7 @@ function MovementEffectWrapper({
   duration,
   children,
 }: MovementEffectProps) {
-  const amplitude = getAmplitudeByLevel(speed);
+  const amplitude = getAmplitudeByLevel(speed); // 진폭
 
   switch (effect) {
     case "bounce":
@@ -182,7 +204,7 @@ function MovementEffectWrapper({
     case "linear":
       return (
         <motion.div
-          animate={{ x: ["0%", "100%"] }}
+          animate={{ x: ["0%", "90%"] }}
           transition={{
             duration,
             ease: "linear",
@@ -233,7 +255,7 @@ function MovementEffectWrapper({
           }}
           transition={{
             duration: duration / speed,
-            repeat: Infinity,
+            // repeat: Infinity,
             ease: "linear",
           }}
         >
@@ -245,104 +267,3 @@ function MovementEffectWrapper({
       return <>{children}</>;
   }
 }
-
-// function FadeInOut({
-//   children,
-//   x,
-//   y,
-//   duration,
-//   onAnimationComplete,
-// }: {
-//   children: ReactNode;
-//   x: number;
-//   y: number;
-//   duration: number;
-//   onAnimationComplete: () => void;
-// }) {
-//   return (
-//     <motion.div
-//       css={css`
-//         position: absolute;
-//         pointer-events: none;
-//         left: 0;
-//         top: 0;
-//       `}
-//       initial={{ opacity: 0, x, y }}
-//       animate={{ opacity: [0, 1, 1, 0] }}
-//       exit={{ opacity: 0 }}
-//       transition={{ duration: duration }}
-//       onAnimationComplete={() => onAnimationComplete()}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }
-
-// function SpinMove({
-//   children,
-//   x,
-//   y,
-//   // duration,
-//   onAnimationComplete,
-// }: {
-//   children: ReactNode;
-//   x: number;
-//   y: number;
-//   // duration?: number;
-//   onAnimationComplete: () => void;
-// }) {
-//   const toRandom = getRandomPosition();
-//   const distance = Math.sqrt((toRandom.x - x) ** 2 + (toRandom.y - y) ** 2); // px
-//   const speed = 10; // px/s
-//   const duration = distance / speed;
-//   console.log(duration);
-
-//   return (
-//     <motion.div
-//       css={css`
-//         position: absolute;
-//         pointer-events: none;
-//         left: 0;
-//         top: 0;
-//       `}
-//       initial={{
-//         opacity: 0,
-//         x: x,
-//         y: y,
-//       }}
-//       animate={{
-//         x: toRandom.x,
-//         y: toRandom.y,
-//         opacity: [1, 1, 0],
-//       }}
-//       exit={{ opacity: 0 }}
-//       transition={{
-//         duration,
-//         ease: "linear",
-//       }}
-//       onAnimationComplete={() => onAnimationComplete()}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }
-
-// function PingPong({
-//   children,
-//   // duration,
-//   onAnimationComplete,
-// }: {
-//   children: ReactNode;
-//   onAnimationComplete: () => void;
-// }) {
-//   return (
-//     <motion.div
-//       animate={{ x: [0, 50, 0] }}
-//       transition={{ repeat: Infinity, duration: 2 }}
-//       exit={{ opacity: 0 }}
-//       onAnimationComplete={() => onAnimationComplete()}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }

@@ -4,9 +4,11 @@ import { AnimatedAnimalIcon } from "pages/sequence-memory-game/common/components
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
 import { AnimatedAnimalInfo } from "pages/sequence-memory-game/common/models/Animations";
 import {
+  getDurationByLevel,
   getRandomAppearanceEffect,
   getRandomMovementEffect,
   getRandomPosition,
+  getSpeedByLevel,
 } from "pages/sequence-memory-game/common/utils/animationModifiers";
 import { getRandomAnimalIcon } from "pages/sequence-memory-game/common/utils/randomAnimal";
 import { useState } from "react";
@@ -22,24 +24,29 @@ export const Test = () => {
       const id = i.toString();
       const randomPosition = getRandomPosition();
       const randomAnimal = getRandomAnimalIcon();
-      const appearanceEffect = getRandomAppearanceEffect();
+      // const appearanceEffect = getRandomAppearanceEffect();
       const movementEffect = getRandomMovementEffect();
+      const level = i;
+      const speed = getSpeedByLevel(level);
+      const duration = getDurationByLevel(level);
 
       animalMap[id] = {
         id,
         x: randomPosition.x,
         y: randomPosition.y,
         icon: randomAnimal,
-        appearanceEffect: appearanceEffect,
+        appearanceEffect: "shake",
         movementEffect: movementEffect,
-        level: i,
         delay: baseDelay * i,
+        duration,
+        speed,
         isDone: false,
       };
     }
 
     return animalMap;
   });
+  console.log(showAnimalList);
 
   return (
     <>
@@ -47,7 +54,7 @@ export const Test = () => {
       <DottedBox height={GAME_BOX_HEIGHT}>
         {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
           <AnimatedAnimalIcon
-            key={animalAppearanceInfo.icon}
+            key={id}
             animatedAnimalInfo={animalAppearanceInfo}
             onAnimationComplete={() => {
               setShowAnimalList((prev) => ({

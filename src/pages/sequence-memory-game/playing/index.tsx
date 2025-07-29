@@ -176,7 +176,7 @@ function Question({
         {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
           <AnimatedAnimalIcon
             key={animalAppearanceInfo.icon}
-            info={animalAppearanceInfo}
+            animatedAnimalInfo={animalAppearanceInfo}
             onAnimationComplete={() => {
               setSHowAnimalList((prev) => ({
                 ...prev,

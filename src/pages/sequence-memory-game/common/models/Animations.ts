@@ -4,7 +4,9 @@ export type AppearanceEffect =
   | "fadeInOut"
   | "scaleUp"
   | "scaleDown"
-  | "skew"
+  | "skewXY"
+  | "skewX"
+  | "skewY"
   | "shake"
   | "rotateX"
   | "rotateY"
@@ -33,7 +35,8 @@ export interface AnimatedAnimalInfo {
   icon: string;
   appearanceEffect: AppearanceEffect;
   movementEffect: MovementEffect;
-  level: number;
   delay: number;
+  speed: number;
+  duration: number;
   isDone: boolean;
 }
