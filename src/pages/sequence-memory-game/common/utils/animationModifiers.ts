@@ -2,11 +2,11 @@ import {
   DEFAULT_ICON_SIZE,
   DOTTEDBOX_BORDER,
   GAME_BOX_HEIGHT,
+  PAGE_MAX_WIDTH,
   PAGE_PADDING,
 } from "constants/layout";
 import { appearanceEffects } from "../constants/appearanceEffects";
-import { movementEffects } from "../constants/movementEffects";
-import { AppearanceEffect, MovementEffect } from "../models/Animations";
+import { AppearanceEffect } from "../models/Animations";
 
 export const getRandomPosition = () => {
   if (typeof window === "undefined") {
@@ -25,23 +25,21 @@ export const getRandomPosition = () => {
 };
 
 export const getDurationByLevel = (level: number): number => {
-  return Math.max(3000 - level * 300, 1000);
+  const min = 1500;
+  const max = 3000;
+  const t = (level - 1) / 9;
+  return Math.round(max - (max - min) * t ** 1.5);
 };
 
-export const getSpeedByLevel = (level: number): number => {
-  return 1 + level * 0.2;
-};
-
-export const getAmplitudeByLevel = (level: number): number => {
-  return 10 + level * 5;
-};
-
-export function getRandomAppearanceEffect(): AppearanceEffect {
+export const getRandomAppearanceEffect = (): AppearanceEffect => {
   const i = Math.floor(Math.random() * appearanceEffects.length);
   return appearanceEffects[i];
-}
+};
 
-export function getRandomMovementEffect(): MovementEffect {
-  const i = Math.floor(Math.random() * movementEffects.length);
-  return movementEffects[i];
-}
+export const getDottedBoxWidth = () => {
+  if (typeof window === "undefined") {
+    return PAGE_MAX_WIDTH;
+  }
+
+  return window.innerWidth - PAGE_PADDING * 2;
+};

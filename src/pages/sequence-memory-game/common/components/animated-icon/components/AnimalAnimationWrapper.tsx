@@ -1,48 +1,46 @@
 import { motion } from "framer-motion";
-import { getAmplitudeByLevel } from "pages/sequence-memory-game/common/utils/animationModifiers";
 import {
-  AnimatedAnimalInfo,
+  Animation,
   AppearanceEffectProps,
-  MovementEffectProps,
 } from "pages/sequence-memory-game/common/models/Animations";
+import { getDottedBoxWidth } from "../../../utils/animationModifiers";
+import { GAME_BOX_HEIGHT } from "constants/layout";
 
-export function AnimationWrapper({
-  animatedAnimalInfo,
+export function AnimalAnimationWrapper({
+  animation,
   onAnimationComplete,
   children,
 }: {
-  animatedAnimalInfo: AnimatedAnimalInfo;
+  animation: Animation;
   onAnimationComplete: () => void;
   children: React.ReactNode;
 }) {
   return (
-    <MovementEffectWrapper
-      effect={animatedAnimalInfo.movementEffect}
-      speed={animatedAnimalInfo.speed}
-      duration={animatedAnimalInfo.duration}
+    <AppearanceEffectWrapper
+      effect={animation.appearanceEffect}
+      duration={animation.duration}
+      x={animation.x}
+      y={animation.y}
+      onComplete={onAnimationComplete}
     >
-      <AppearanceEffectWrapper
-        effect={animatedAnimalInfo.appearanceEffect}
-        duration={animatedAnimalInfo.duration}
-        onComplete={onAnimationComplete}
+      <div
+        style={{
+          position: "absolute",
+          left: animation.x,
+          top: animation.y,
+        }}
       >
-        <div
-          style={{
-            position: "absolute",
-            left: animatedAnimalInfo.x,
-            top: animatedAnimalInfo.y,
-          }}
-        >
-          {children}
-        </div>
-      </AppearanceEffectWrapper>
-    </MovementEffectWrapper>
+        {children}
+      </div>
+    </AppearanceEffectWrapper>
   );
 }
 
 function AppearanceEffectWrapper({
   effect,
   duration,
+  x,
+  y,
   onComplete,
   children,
 }: AppearanceEffectProps) {
@@ -77,7 +75,7 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           initial={{ scale: 2 }}
-          animate={{ scale: [2, 0.5, 1] }}
+          animate={{ scale: [2, 0.7, 1.2], opacity: [0, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -90,8 +88,9 @@ function AppearanceEffectWrapper({
         <motion.div
           initial={{ skewX: "25deg", skewY: "25deg" }}
           animate={{
-            skewX: ["25eg", "-25deg", "0deg"],
-            skewY: ["25deg", "-25deg", "0deg"],
+            skewX: ["20eg", "-20deg", "0deg"],
+            skewY: ["20deg", "-20deg", "0deg"],
+            opacity: [0, 1, 0],
           }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
@@ -104,7 +103,7 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           initial={{ skewX: "30deg" }}
-          animate={{ skewX: ["30deg", "-30deg", "0deg"] }}
+          animate={{ skewX: ["30deg", "-30deg", "0deg"], opacity: [0, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -116,7 +115,7 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           initial={{ skewY: "30deg" }}
-          animate={{ skewY: ["30deg", "-30deg", "0deg"] }}
+          animate={{ skewY: ["30deg", "-30deg", "0deg"], opacity: [0, 1, 0] }}
           transition={{ duration: fadeDuration }}
           onAnimationComplete={onComplete}
         >
@@ -128,8 +127,8 @@ function AppearanceEffectWrapper({
       return (
         <motion.div
           animate={{
-            x: [-10, 10, -5, 5, 0],
-            y: [-10, 10, -5, 5, 0],
+            x: [-15, 15, 15, -15, 0],
+            y: [-15, 15, -15, 15, 0],
             opacity: [1, 1, 1, 1, 0],
           }}
           transition={{ duration: fadeDuration }}
@@ -164,8 +163,49 @@ function AppearanceEffectWrapper({
     case "rotateZ":
       return (
         <motion.div
-          animate={{ rotateZ: [0, 180, 360] }}
+          animate={{ rotateZ: [0, 50, 0], opacity: [1, 1, 0] }}
           transition={{ duration: fadeDuration }}
+          onAnimationComplete={onComplete}
+        >
+          {children}
+        </motion.div>
+      );
+
+    case "horizontalMove":
+      const dottedBoxWidth = getDottedBoxWidth();
+      const shouldGoRight = x && x < dottedBoxWidth * 0.5;
+
+      return (
+        <motion.div
+          initial={{ x: 0 }}
+          animate={{
+            x: shouldGoRight ? dottedBoxWidth : -dottedBoxWidth,
+            opacity: [1, 0],
+          }}
+          transition={{
+            duration: fadeDuration,
+            repeat: 0,
+          }}
+          onAnimationComplete={onComplete}
+        >
+          {children}
+        </motion.div>
+      );
+
+    case "verticalMove":
+      const shouldGoDown = y && y < GAME_BOX_HEIGHT * 0.5;
+
+      return (
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{
+            y: shouldGoDown ? GAME_BOX_HEIGHT : -GAME_BOX_HEIGHT,
+            opacity: [1, 0],
+          }}
+          transition={{
+            duration: fadeDuration,
+            repeat: 0,
+          }}
           onAnimationComplete={onComplete}
         >
           {children}
@@ -174,96 +214,5 @@ function AppearanceEffectWrapper({
 
     default:
       throw new Error("정의되지 않은 애니메이션 타입입니다");
-  }
-}
-
-function MovementEffectWrapper({
-  effect,
-  speed,
-  duration,
-  children,
-}: MovementEffectProps) {
-  const amplitude = getAmplitudeByLevel(speed); // 진폭
-
-  switch (effect) {
-    case "bounce":
-      return (
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 1 / speed,
-          }}
-        >
-          {children}
-        </motion.div>
-      );
-
-    case "linear":
-      return (
-        <motion.div
-          animate={{ x: ["0%", "90%"] }}
-          transition={{
-            duration,
-            ease: "linear",
-          }}
-        >
-          {children}
-        </motion.div>
-      );
-
-    case "wave":
-      return (
-        <motion.div
-          animate={{
-            y: [0, -amplitude, 0, amplitude, 0],
-          }}
-          transition={{
-            duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          {children}
-        </motion.div>
-      );
-
-    case "zigzag":
-      return (
-        <motion.div
-          animate={{
-            x: [-amplitude, amplitude, -amplitude],
-            y: [0, amplitude, 0],
-          }}
-          transition={{
-            duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          {children}
-        </motion.div>
-      );
-
-    case "orbit":
-      return (
-        <motion.div
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: duration / speed,
-            // repeat: Infinity,
-            ease: "linear",
-          }}
-        >
-          {children}
-        </motion.div>
-      );
-
-    default:
-      return <>{children}</>;
   }
 }

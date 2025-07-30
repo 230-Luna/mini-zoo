@@ -1,4 +1,3 @@
-import { AnimationWrapper } from "components/AnimationWrapper";
 import { Flex } from "components/Flex";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
@@ -12,11 +11,19 @@ import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 import { sequenceMemoryGameScoreStorage } from "../common/utils/score-storage";
 import { ANSWER_BOX_HEIGHT, GAME_BOX_HEIGHT } from "constants/layout";
-import { AnimatedAnimalIcon } from "../common/components/AnimatedAnimalIcon";
-import { AnimatedAnimalInfo } from "../common/models/Animations";
+import { Animation } from "../common/models/Animations";
 import { IconButton } from "components/IconButton";
 import { chunk } from "es-toolkit";
-import { noop } from "utils/function";
+import { getRandomItem, noop } from "utils/function";
+import {
+  getDurationByLevel,
+  getRandomAppearanceEffect,
+  getRandomPosition,
+} from "../common/utils/animationModifiers";
+import { emojiAnimalFaceList } from "../common/constants/emojiAnimalFaceList";
+import { AnimatedIcon } from "../common/components/animated-icon";
+import { BASE_DELAY } from "../common/constants/gameParams";
+import { AnimationWrapper } from "components/AnimationWrapper";
 
 export function SequenceMemoryGamePlayingPage() {
   const [level, setLevel] = useState<number>(1);
@@ -136,52 +143,47 @@ function Question({
   onComplete: () => void;
   level: number;
 }) {
-  const [showAnimalList, setSHowAnimalList] = useState<
-    Record<string, AnimatedAnimalInfo>
-  >(() => {
-    return {
-      "1": {
-        id: "1",
-        x: 250,
-        y: 100,
-        icon: "hamsterFace",
-        animationName: "fadeInOut",
-        delay: 1500,
-        isDone: false,
-      },
-      "2": {
-        id: "2",
-        x: 50,
-        y: 150,
-        icon: "brownBearFace",
-        animationName: "fadeInOut",
-        delay: 3000,
-        isDone: false,
-      },
-    };
-  });
+  const randomAnimalIcon = getRandomItem(emojiAnimalFaceList);
+  const randomPosition = getRandomPosition();
+  const appearanceEffect = getRandomAppearanceEffect();
+  const duration = getDurationByLevel(level);
+  const [animationList, setAnimationList] = useState<Animation[]>([
+    {
+      x: randomPosition.x,
+      y: randomPosition.y,
+      appearanceEffect,
+      delay: BASE_DELAY * level,
+      duration,
+      isDone: false,
+    },
+  ]);
 
   useEffect(() => {
-    if (
-      Object.values(showAnimalList).every((animal) => animal.isDone === true)
-    ) {
+    if (animationList.every((animation) => animation.isDone === true)) {
       onComplete();
     }
-  }, [showAnimalList, onComplete]);
+  }, [animationList, onComplete]);
 
   return (
     <>
       <Spacing size={84} />
       <DottedBox height={GAME_BOX_HEIGHT}>
-        {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
-          <AnimatedAnimalIcon
-            key={animalAppearanceInfo.icon}
-            animatedAnimalInfo={animalAppearanceInfo}
+        {animationList.map((animation, index) => (
+          <AnimatedIcon
+            key={index}
+            name={randomAnimalIcon}
+            animation={animation}
             onAnimationComplete={() => {
-              setSHowAnimalList((prev) => ({
-                ...prev,
-                [id]: { ...animalAppearanceInfo, isDone: true },
-              }));
+              setAnimationList((prev) =>
+                prev.map((animation, i) =>
+                  i === index
+                    ? {
+                        ...animation,
+                        isDone: true,
+                      }
+                    : animation
+                )
+              );
             }}
           />
         ))}
@@ -199,6 +201,7 @@ function Answer({
   onWrong: () => void;
   level: number;
 }) {
+  const arr = Array.from({ length: level });
   return (
     <>
       <Flex justify="center">
@@ -207,8 +210,14 @@ function Answer({
         </AnimationWrapper>
       </Flex>
       <Spacing size={64} />
-      <Flex justify="space-around">
-        <IconButton name="questionMark" size={80} />
+      <Flex direction="column" justify="space-evenly" css={{ height: "100%" }}>
+        {chunk(arr, 3).map((_, idx) => (
+          <Flex justify="space-evenly" key={idx}>
+            {arr.map((_, index) => (
+              <IconButton key={index} name="questionMark" size={60} />
+            ))}
+          </Flex>
+        ))}
       </Flex>
       <Spacing size={56} />
       <AnswerOptions

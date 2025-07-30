@@ -10,33 +10,24 @@ export type AppearanceEffect =
   | "shake"
   | "rotateX"
   | "rotateY"
-  | "rotateZ";
+  | "rotateZ"
+  | "horizontalMove"
+  | "verticalMove";
 
 export interface AppearanceEffectProps {
   effect: AppearanceEffect;
   duration: number;
+  x: number;
+  y: number;
   onComplete: () => void;
   children: ReactNode;
 }
 
-export type MovementEffect = "bounce" | "linear" | "wave" | "zigzag" | "orbit";
-
-export interface MovementEffectProps {
-  effect: MovementEffect;
-  speed: number;
-  duration: number;
-  children: ReactNode;
-}
-
-export interface AnimatedAnimalInfo {
-  id: string;
+export interface Animation {
   x: number;
   y: number;
-  icon: string;
   appearanceEffect: AppearanceEffect;
-  movementEffect: MovementEffect;
   delay: number;
-  speed: number;
   duration: number;
   isDone: boolean;
 }
