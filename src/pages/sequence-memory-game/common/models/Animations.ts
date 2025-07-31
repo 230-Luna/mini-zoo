@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export type AppearanceEffect =
+export type Effects =
   | "fadeInOut"
   | "scaleUp"
   | "scaleDown"
@@ -15,18 +15,18 @@ export type AppearanceEffect =
   | "verticalMove";
 
 export interface AppearanceEffectProps {
-  effect: AppearanceEffect;
+  effect: Effects;
   duration: number;
-  x: number;
-  y: number;
+  fromX: number;
+  fromY: number;
   onComplete: () => void;
   children: ReactNode;
 }
 
 export interface Animation {
-  x: number;
-  y: number;
-  appearanceEffect: AppearanceEffect;
+  fromX: number;
+  fromY: number;
+  effect: Effects;
   delay: number;
   duration: number;
   isDone: boolean;

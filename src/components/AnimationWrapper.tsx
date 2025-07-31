@@ -2,6 +2,7 @@ import { useAnimation } from "motion/react";
 import { Children, ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useInterval } from "hooks/useInterval";
+import { BASE_DELAY } from "pages/sequence-memory-game/common/constants/game";
 
 type AnimationType =
   | "zoomIn"
@@ -82,7 +83,7 @@ function ScaleAnimation({
 
 function FlipItemsAnimation({
   children,
-  interval = 1500,
+  interval = BASE_DELAY,
 }: {
   children: ReactNode;
   interval?: number;

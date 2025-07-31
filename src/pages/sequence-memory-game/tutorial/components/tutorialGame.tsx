@@ -2,7 +2,19 @@ import { useEffect, useState } from "react";
 import { GAME_BOX_HEIGHT } from "constants/layout";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
 import { AnimatedIcon } from "pages/sequence-memory-game/common/components/animated-icon";
-import { AppearanceEffect } from "pages/sequence-memory-game/common/models/Animations";
+import { Effects } from "pages/sequence-memory-game/common/models/Animations";
+
+interface TutorialAnimatedAnimals {
+  name: string;
+  animation: {
+    fromX: number;
+    fromY: number;
+    effect: Effects;
+    delay: number;
+    duration: number;
+    isDone: boolean;
+  };
+}
 
 export const SequenceMemoryGameTutorialGame = ({
   onComplete,
@@ -10,24 +22,14 @@ export const SequenceMemoryGameTutorialGame = ({
   onComplete: () => void;
 }) => {
   const [tutorialAnimatedAnimals, setTutorialAnimatedAnimals] = useState<
-    {
-      name: string;
-      animation: {
-        x: number;
-        y: number;
-        appearanceEffect: AppearanceEffect;
-        delay: number;
-        duration: number;
-        isDone: boolean;
-      };
-    }[]
+    TutorialAnimatedAnimals[]
   >([
     {
       name: "hamsterFace",
       animation: {
-        x: 200,
-        y: 100,
-        appearanceEffect: "fadeInOut",
+        fromX: 200,
+        fromY: 100,
+        effect: "fadeInOut",
         delay: 1500,
         duration: 2500,
         isDone: false,
@@ -36,9 +38,9 @@ export const SequenceMemoryGameTutorialGame = ({
     {
       name: "brownBearFace",
       animation: {
-        x: 80,
-        y: 200,
-        appearanceEffect: "fadeInOut",
+        fromX: 80,
+        fromY: 200,
+        effect: "fadeInOut",
         delay: 3200,
         duration: 2500,
         isDone: false,

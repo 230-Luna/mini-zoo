@@ -5,11 +5,11 @@ import {
   PAGE_MAX_WIDTH,
   PAGE_PADDING,
 } from "constants/layout";
-import { appearanceEffects } from "../constants/appearanceEffects";
-import { AppearanceEffect } from "../models/Animations";
+import { MAX_GAME_LEVEL } from "../constants/game";
+import { isServer } from "utils/env";
 
-export const getRandomPosition = () => {
-  if (typeof window === "undefined") {
+export const getRandomGameBoxPosition = () => {
+  if (isServer()) {
     return { x: 0, y: 0 };
   }
 
@@ -27,17 +27,12 @@ export const getRandomPosition = () => {
 export const getDurationByLevel = (level: number): number => {
   const min = 1500;
   const max = 3000;
-  const t = (level - 1) / 9;
+  const t = (MAX_GAME_LEVEL - level) / (MAX_GAME_LEVEL - 1);
   return Math.round(max - (max - min) * t ** 1.5);
 };
 
-export const getRandomAppearanceEffect = (): AppearanceEffect => {
-  const i = Math.floor(Math.random() * appearanceEffects.length);
-  return appearanceEffects[i];
-};
-
 export const getDottedBoxWidth = () => {
-  if (typeof window === "undefined") {
+  if (isServer()) {
     return PAGE_MAX_WIDTH;
   }
 

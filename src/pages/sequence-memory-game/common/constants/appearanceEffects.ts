@@ -1,6 +1,6 @@
-import { AppearanceEffect } from "pages/sequence-memory-game/common/models/Animations";
+import { Effects } from "pages/sequence-memory-game/common/models/Animations";
 
-export const appearanceEffects: AppearanceEffect[] = [
+export const effects: Effects[] = [
   "fadeInOut",
   "scaleUp",
   "scaleDown",

@@ -14,16 +14,18 @@ import { ANSWER_BOX_HEIGHT, GAME_BOX_HEIGHT } from "constants/layout";
 import { Animation } from "../common/models/Animations";
 import { IconButton } from "components/IconButton";
 import { chunk } from "es-toolkit";
-import { getRandomItem, noop } from "utils/function";
+import { noop } from "utils/function";
 import {
   getDurationByLevel,
-  getRandomAppearanceEffect,
-  getRandomPosition,
+  getRandomGameBoxPosition,
 } from "../common/utils/animationModifiers";
 import { emojiAnimalFaceList } from "../common/constants/emojiAnimalFaceList";
 import { AnimatedIcon } from "../common/components/animated-icon";
-import { BASE_DELAY } from "../common/constants/gameParams";
+import { BASE_DELAY } from "../common/constants/game";
 import { AnimationWrapper } from "components/AnimationWrapper";
+import { getRandomItem } from "utils/random";
+import { effects } from "../common/constants/appearanceEffects";
+import { getIconCountByLevel } from "./common/utils/gameSetting";
 
 export function SequenceMemoryGamePlayingPage() {
   const [level, setLevel] = useState<number>(1);
@@ -75,6 +77,7 @@ function Stage({
   const [gameFlow, setGameFlow] = useState<
     "LOADING" | "QUESTION" | "ANSWER" | "SUCCESS" | "FAIL"
   >("LOADING");
+  const [iconSequence, setIconSequence] = useState<string[]>([]);
 
   return (
     <>
@@ -83,21 +86,28 @@ function Stage({
           <Loading onComplete={() => setGameFlow("QUESTION")} level={level} />
         ))
         .with("QUESTION", () => (
-          <Question onComplete={() => setGameFlow("ANSWER")} level={level} />
+          <Question
+            level={level}
+            onComplete={(sequence) => {
+              setIconSequence(sequence);
+              setGameFlow("ANSWER");
+            }}
+          />
         ))
         .with("ANSWER", () => (
           <Answer
+            level={level}
+            iconSequence={iconSequence}
             onCorrect={() => {
               setGameFlow("SUCCESS");
             }}
             onWrong={() => {
               setGameFlow("FAIL");
             }}
-            level={level}
           />
         ))
         .with("SUCCESS", () => (
-          <SucessResult
+          <SuccessResult
             onComplete={() => onComplete({ gameResult: "SUCCESS" })}
           />
         ))
@@ -137,32 +147,52 @@ function Loading({
 }
 
 function Question({
-  onComplete,
   level,
+  onComplete,
 }: {
-  onComplete: () => void;
   level: number;
+  onComplete: (sequence: string[]) => void;
 }) {
-  const randomAnimalIcon = getRandomItem(emojiAnimalFaceList);
-  const randomPosition = getRandomPosition();
-  const appearanceEffect = getRandomAppearanceEffect();
+  const iconCount = getIconCountByLevel(level);
   const duration = getDurationByLevel(level);
-  const [animationList, setAnimationList] = useState<Animation[]>([
-    {
-      x: randomPosition.x,
-      y: randomPosition.y,
-      appearanceEffect,
-      delay: BASE_DELAY * level,
-      duration,
-      isDone: false,
-    },
-  ]);
+
+  const [iconSequence] = useState<string[]>(() => {
+    const usedIcons = new Set<string>();
+    const sequence: string[] = [];
+
+    for (let i = 0; i < iconCount; i++) {
+      let icon;
+      do {
+        icon = getRandomItem(emojiAnimalFaceList);
+      } while (usedIcons.has(icon));
+      usedIcons.add(icon);
+      sequence.push(icon);
+    }
+
+    return sequence;
+  });
+
+  const [animationList, setAnimationList] = useState<Animation[]>(() => {
+    return Array.from({ length: iconCount }, () => {
+      const position = getRandomGameBoxPosition();
+      const effect = getRandomItem(effects);
+
+      return {
+        fromX: position.x,
+        fromY: position.y,
+        effect,
+        delay: BASE_DELAY * level,
+        duration,
+        isDone: false,
+      };
+    });
+  });
 
   useEffect(() => {
     if (animationList.every((animation) => animation.isDone === true)) {
-      onComplete();
+      onComplete(iconSequence);
     }
-  }, [animationList, onComplete]);
+  }, [animationList, onComplete, iconSequence]);
 
   return (
     <>
@@ -171,7 +201,7 @@ function Question({
         {animationList.map((animation, index) => (
           <AnimatedIcon
             key={index}
-            name={randomAnimalIcon}
+            name={iconSequence[index]}
             animation={animation}
             onAnimationComplete={() => {
               setAnimationList((prev) =>
@@ -193,15 +223,35 @@ function Question({
 }
 
 function Answer({
+  level,
+  iconSequence,
   onCorrect,
   onWrong,
-  level,
 }: {
+  level: number;
+  iconSequence: string[];
   onCorrect: () => void;
   onWrong: () => void;
-  level: number;
 }) {
-  const arr = Array.from({ length: level });
+  const [userSequence, setUserSequence] = useState<string[]>([]);
+  const iconCount = getIconCountByLevel(level);
+
+  const handleIconClick = (iconType: string) => {
+    const newSequence = [...userSequence, iconType];
+    setUserSequence(newSequence);
+
+    if (newSequence.length === iconCount) {
+      const isCorrect = newSequence.every(
+        (icon, index) => icon === iconSequence[index]
+      );
+      if (isCorrect) {
+        onCorrect();
+      } else {
+        onWrong();
+      }
+    }
+  };
+
   return (
     <>
       <Flex justify="center">
@@ -210,52 +260,69 @@ function Answer({
         </AnimationWrapper>
       </Flex>
       <Spacing size={64} />
-      <Flex direction="column" justify="space-evenly" css={{ height: "100%" }}>
-        {chunk(arr, 3).map((_, idx) => (
+      <Flex
+        direction="column"
+        justify="space-evenly"
+        css={{ height: "100%" }}
+        gap={32}
+      >
+        {chunk(Array.from({ length: iconCount }), 10).map((_, idx) => (
           <Flex justify="space-evenly" key={idx}>
-            {arr.map((_, index) => (
-              <IconButton key={index} name="questionMark" size={60} />
+            {Array.from({ length: iconCount }).map((_, index) => (
+              <IconButton
+                key={index}
+                name={userSequence[index] || "questionMark"}
+              />
             ))}
           </Flex>
         ))}
       </Flex>
       <Spacing size={56} />
       <AnswerOptions
-        onClickItem={({ iconType }) => {
-          if (iconType === "brownBearFace") {
-            onCorrect();
-          } else {
-            onWrong();
-          }
-        }}
+        iconSequence={iconSequence}
+        onClickItem={handleIconClick}
       />
     </>
   );
 }
 
 function AnswerOptions({
+  iconSequence,
   onClickItem = noop,
 }: {
-  onClickItem?: (params: { iconType: string }) => void;
+  iconSequence: string[];
+  onClickItem?: (iconType: string) => void;
 }) {
-  const iconTypes = [
-    "foxFace",
-    "hamsterFace",
-    "chickenFace",
-    "horseFace",
-    "brownBearFace",
-    "koalaFace",
-  ];
+  const [randomIconTypes] = useState<string[]>(() => {
+    const usedIcons = new Set<string>();
+    const icons: string[] = [];
+
+    iconSequence.forEach((icon) => {
+      usedIcons.add(icon);
+      icons.push(icon);
+    });
+
+    while (icons.length < 9) {
+      const icon = getRandomItem(emojiAnimalFaceList);
+      if (!usedIcons.has(icon)) {
+        usedIcons.add(icon);
+        icons.push(icon);
+      }
+    }
+
+    return icons.sort(() => Math.random() - 0.5);
+  });
+
   return (
     <DottedBox height={ANSWER_BOX_HEIGHT}>
       <Flex direction="column" justify="space-evenly" css={{ height: "100%" }}>
-        {chunk(iconTypes, 3).map((iconTypes, idx) => (
+        {chunk(randomIconTypes, 3).map((iconTypes, idx) => (
           <Flex justify="space-evenly" key={idx}>
             {iconTypes.map((iconType) => (
               <IconButton
                 key={iconType}
                 name={iconType}
-                onClick={() => onClickItem({ iconType })}
+                onClick={() => onClickItem(iconType)}
               />
             ))}
           </Flex>
@@ -265,7 +332,7 @@ function AnswerOptions({
   );
 }
 
-function SucessResult({ onComplete }: { onComplete: () => void }) {
+function SuccessResult({ onComplete }: { onComplete: () => void }) {
   return (
     <>
       <Flex justify="center">

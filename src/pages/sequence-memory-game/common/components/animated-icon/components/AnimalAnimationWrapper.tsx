@@ -17,16 +17,16 @@ export function AnimalAnimationWrapper({
 }) {
   return (
     <AppearanceEffectWrapper
-      effect={animation.appearanceEffect}
+      effect={animation.effect}
       duration={animation.duration}
-      x={animation.x}
+      x={animation.fromX}
       y={animation.y}
       onComplete={onAnimationComplete}
     >
       <div
         style={{
           position: "absolute",
-          left: animation.x,
+          left: animation.fromX,
           top: animation.y,
         }}
       >
