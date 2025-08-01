@@ -254,7 +254,7 @@ function TextWaveAnimation({ children }: { children: ReactNode }) {
           currentDelay += 0.2;
         }
 
-        return <Fragment key={index}>{processed}</Fragment>;
+        return <Fragment key={index + child.toString()}>{processed}</Fragment>;
       });
     }
 

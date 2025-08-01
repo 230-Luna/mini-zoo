@@ -178,7 +178,7 @@ function Question({
         fromX: position.x,
         fromY: position.y,
         effect,
-        delay: BASE_DELAY * level + index * duration,
+        delay: BASE_DELAY + index * duration,
         duration,
       };
     });
@@ -222,22 +222,36 @@ function Answer({
   onCorrect: () => void;
   onWrong: () => void;
 }) {
-  const [userSequence, setUserSequence] = useState<string[]>([]);
   const iconCount = getIconCountByLevel(level);
+  const [userSequence, setUserSequence] = useState<string[]>(
+    new Array(iconCount).fill("EMPTY_ICON")
+  );
 
   const handleIconClick = (index: number) => {
+    if (userSequence[index] === "EMPTY_ICON") {
+      return;
+    }
+
     setUserSequence((prev) => {
       const newSequence = [...prev];
-      newSequence.splice(index, 1);
+      newSequence[index] = "EMPTY_ICON";
       return newSequence;
     });
   };
 
   const handleItemsClick = (iconType: string) => {
-    const newSequence = [...userSequence, iconType];
+    const newSequence = [...userSequence];
+
+    const emptyIconIndex = newSequence.indexOf("EMPTY_ICON");
+    if (emptyIconIndex === -1) {
+      console.log("emptyIconIndex", emptyIconIndex);
+      return;
+    }
+
+    newSequence[emptyIconIndex] = iconType;
     setUserSequence(newSequence);
 
-    if (newSequence.length === iconCount) {
+    if (!newSequence.includes("EMPTY_ICON")) {
       const isCorrect = newSequence.every(
         (icon, index) => icon === iconSequence[index]
       );
@@ -268,8 +282,12 @@ function Answer({
             {Array.from({ length: iconCount }).map((_, index) => (
               <IconButton
                 key={index}
-                name={userSequence[index] || "questionMark"}
-                onClick={() => userSequence[index] && handleIconClick(index)}
+                name={
+                  userSequence[index] === "EMPTY_ICON"
+                    ? "questionMark"
+                    : userSequence[index]
+                }
+                onClick={() => handleIconClick(index)}
               />
             ))}
           </Flex>
@@ -356,7 +374,7 @@ function SuccessResult({
       <Flex justify="center">
         <Text typography="t1">+1</Text>
       </Flex>
-      {level < 3 ? (
+      {level < 10 ? (
         <BottomButton onClick={onComplete}>다음 단계로</BottomButton>
       ) : (
         <>
