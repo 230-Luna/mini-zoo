@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GAME_BOX_HEIGHT } from "constants/layout";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
 import { AnimatedIcon } from "pages/sequence-memory-game/common/components/animated-icon";
@@ -12,7 +12,6 @@ interface TutorialAnimatedAnimals {
     effect: Effects;
     delay: number;
     duration: number;
-    isDone: boolean;
   };
 }
 
@@ -27,36 +26,24 @@ export const SequenceMemoryGameTutorialGame = ({
     {
       name: "hamsterFace",
       animation: {
-        fromX: 200,
-        fromY: 100,
+        fromX: 230,
+        fromY: 200,
         effect: "fadeInOut",
         delay: 1500,
         duration: 2500,
-        isDone: false,
       },
     },
     {
       name: "brownBearFace",
       animation: {
         fromX: 80,
-        fromY: 200,
+        fromY: 130,
         effect: "fadeInOut",
         delay: 3200,
         duration: 2500,
-        isDone: false,
       },
     },
   ]);
-
-  useEffect(() => {
-    if (
-      tutorialAnimatedAnimals.every(
-        (animatedAnimal) => animatedAnimal.animation.isDone === true
-      )
-    ) {
-      onComplete();
-    }
-  }, [tutorialAnimatedAnimals, onComplete]);
 
   return (
     <DottedBox height={GAME_BOX_HEIGHT}>
@@ -73,12 +60,14 @@ export const SequenceMemoryGameTutorialGame = ({
                       ...animal,
                       animation: {
                         ...animal.animation,
-                        isDone: true,
                       },
                     }
                   : animal
               )
             );
+            if (index === tutorialAnimatedAnimals.length - 1) {
+              onComplete();
+            }
           }}
         />
       ))}

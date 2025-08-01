@@ -29,5 +29,4 @@ export interface Animation {
   effect: Effects;
   delay: number;
   duration: number;
-  isDone: boolean;
 }

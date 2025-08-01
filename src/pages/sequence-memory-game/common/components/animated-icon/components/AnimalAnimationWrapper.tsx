@@ -19,15 +19,15 @@ export function AnimalAnimationWrapper({
     <AppearanceEffectWrapper
       effect={animation.effect}
       duration={animation.duration}
-      x={animation.fromX}
-      y={animation.y}
+      fromX={animation.fromX}
+      fromY={animation.fromY}
       onComplete={onAnimationComplete}
     >
       <div
         style={{
           position: "absolute",
           left: animation.fromX,
-          top: animation.y,
+          top: animation.fromY,
         }}
       >
         {children}
@@ -39,8 +39,8 @@ export function AnimalAnimationWrapper({
 function AppearanceEffectWrapper({
   effect,
   duration,
-  x,
-  y,
+  fromX,
+  fromY,
   onComplete,
   children,
 }: AppearanceEffectProps) {
@@ -173,7 +173,7 @@ function AppearanceEffectWrapper({
 
     case "horizontalMove":
       const dottedBoxWidth = getDottedBoxWidth();
-      const shouldGoRight = x && x < dottedBoxWidth * 0.5;
+      const shouldGoRight = fromX && fromX < dottedBoxWidth * 0.5;
 
       return (
         <motion.div
@@ -193,7 +193,7 @@ function AppearanceEffectWrapper({
       );
 
     case "verticalMove":
-      const shouldGoDown = y && y < GAME_BOX_HEIGHT * 0.5;
+      const shouldGoDown = fromY && fromY < GAME_BOX_HEIGHT * 0.5;
 
       return (
         <motion.div

@@ -29,11 +29,10 @@ export const Test = () => {
 
       animalMap[id] = {
         fromX: randomPosition.x,
-        y: randomPosition.y,
+        fromY: randomPosition.y,
         effect: appearanceEffect,
         delay: baseDelay * i,
         duration,
-        isDone: false,
       };
     }
 
@@ -53,7 +52,7 @@ export const Test = () => {
             onAnimationComplete={() => {
               setShowAnimalList((prev) => ({
                 ...prev,
-                [id]: { ...animation, isDone: true },
+                [id]: { ...animation },
               }));
             }}
           />

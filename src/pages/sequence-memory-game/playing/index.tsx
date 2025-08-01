@@ -1,7 +1,7 @@
 import { Flex } from "components/Flex";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { match } from "ts-pattern";
 import { DottedBox } from "../common/components/DottedBox";
 import { useTimeout } from "hooks/useTimeout";
@@ -108,6 +108,7 @@ function Stage({
         ))
         .with("SUCCESS", () => (
           <SuccessResult
+            level={level}
             onComplete={() => onComplete({ gameResult: "SUCCESS" })}
           />
         ))
@@ -132,13 +133,9 @@ function Loading({
     <>
       <Spacing size={120} />
       <Flex justify="center">
-        <AnimationWrapper type="flipItems">
+        <AnimationWrapper type="textWave">
           <Text typography="t1">{level}단계~</Text>
-        </AnimationWrapper>
-      </Flex>
-      <Spacing size={120} />
-      <Flex justify="center">
-        <AnimationWrapper type="flipItems">
+          <Spacing size={120} />
           <Text typography="t1">start!!!</Text>
         </AnimationWrapper>
       </Flex>
@@ -173,7 +170,7 @@ function Question({
   });
 
   const [animationList, setAnimationList] = useState<Animation[]>(() => {
-    return Array.from({ length: iconCount }, () => {
+    return Array.from({ length: iconCount }, (_, index) => {
       const position = getRandomGameBoxPosition();
       const effect = getRandomItem(effects);
 
@@ -181,18 +178,11 @@ function Question({
         fromX: position.x,
         fromY: position.y,
         effect,
-        delay: BASE_DELAY * level,
+        delay: BASE_DELAY * level + index * duration,
         duration,
-        isDone: false,
       };
     });
   });
-
-  useEffect(() => {
-    if (animationList.every((animation) => animation.isDone === true)) {
-      onComplete(iconSequence);
-    }
-  }, [animationList, onComplete, iconSequence]);
 
   return (
     <>
@@ -206,14 +196,13 @@ function Question({
             onAnimationComplete={() => {
               setAnimationList((prev) =>
                 prev.map((animation, i) =>
-                  i === index
-                    ? {
-                        ...animation,
-                        isDone: true,
-                      }
-                    : animation
+                  i === index ? { ...animation } : animation
                 )
               );
+              if (index === animationList.length - 1) {
+                onComplete(iconSequence);
+              }
+              return;
             }}
           />
         ))}
@@ -236,7 +225,15 @@ function Answer({
   const [userSequence, setUserSequence] = useState<string[]>([]);
   const iconCount = getIconCountByLevel(level);
 
-  const handleIconClick = (iconType: string) => {
+  const handleIconClick = (index: number) => {
+    setUserSequence((prev) => {
+      const newSequence = [...prev];
+      newSequence.splice(index, 1);
+      return newSequence;
+    });
+  };
+
+  const handleItemsClick = (iconType: string) => {
     const newSequence = [...userSequence, iconType];
     setUserSequence(newSequence);
 
@@ -255,7 +252,7 @@ function Answer({
   return (
     <>
       <Flex justify="center">
-        <AnimationWrapper type="flipItems">
+        <AnimationWrapper type="textWave">
           <Text typography="t2">동물을 순서대로 선택해주세요</Text>
         </AnimationWrapper>
       </Flex>
@@ -272,6 +269,7 @@ function Answer({
               <IconButton
                 key={index}
                 name={userSequence[index] || "questionMark"}
+                onClick={() => userSequence[index] && handleIconClick(index)}
               />
             ))}
           </Flex>
@@ -280,7 +278,7 @@ function Answer({
       <Spacing size={56} />
       <AnswerOptions
         iconSequence={iconSequence}
-        onClickItem={handleIconClick}
+        onClickItem={handleItemsClick}
       />
     </>
   );
@@ -332,46 +330,73 @@ function AnswerOptions({
   );
 }
 
-function SuccessResult({ onComplete }: { onComplete: () => void }) {
+function SuccessResult({
+  level,
+  onComplete,
+}: {
+  level: number;
+  onComplete: () => void;
+}) {
+  const router = useRouter();
+
   return (
     <>
       <Flex justify="center">
-        <AnimationWrapper type="flipItems">
+        <AnimationWrapper type="textWave">
           <Text typography="t2">잘했어요!</Text>
         </AnimationWrapper>
       </Flex>
       <Spacing size={120} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
-          <Icon name="partyPopper" />
+          <Icon name="partyPopper" size={100} />
         </AnimationWrapper>
       </Flex>
       <Spacing size={28} />
       <Flex justify="center">
         <Text typography="t1">+1</Text>
       </Flex>
-      <BottomButton onClick={onComplete}>다음 단계로</BottomButton>
+      {level < 3 ? (
+        <BottomButton onClick={onComplete}>다음 단계로</BottomButton>
+      ) : (
+        <>
+          <Spacing size={28} />
+          <Flex justify="center">
+            <Text typography="t2">최종 단계까지 성공했어요!</Text>
+          </Flex>
+          <Spacing size={28} />
+          <BottomButton
+            onClick={() => {
+              router.push(RouteUrls.home());
+            }}
+          >
+            메인 화면으로
+          </BottomButton>
+        </>
+      )}
     </>
   );
 }
 
 function FailResult({ onComplete }: { onComplete: () => void }) {
+  const previousScore = sequenceMemoryGameScoreStorage.get();
+  const currentScore = previousScore && previousScore > 0 ? "-1" : null;
   return (
     <>
       <Flex justify="center">
-        <AnimationWrapper type="flipItems">
+        <AnimationWrapper type="textWave">
           <Text typography="t2">아쉬워요</Text>
         </AnimationWrapper>
       </Flex>
       <Spacing size={120} />
       <Flex justify="center">
         <AnimationWrapper type="flipItems">
-          <Icon name="smilingFaceWithOpenMouthAndColdSweat" />
+          <Icon name="smilingFaceWithOpenMouthAndColdSweat" size={100} />
         </AnimationWrapper>
       </Flex>
       <Spacing size={28} />
       <Flex justify="center">
-        <Text typography="t1">-1</Text>
+        <Text typography="t1">{currentScore}</Text>
       </Flex>
       <BottomButton onClick={onComplete}>메인 화면으로</BottomButton>
     </>
