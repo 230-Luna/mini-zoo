@@ -37,20 +37,21 @@ export const SequenceMemoryGameTutorialAnswer = () => {
       {match(tutorialFlow)
         .with("INITIAL", () => (
           <>
-            <Flex justify="center">
-              <AnimationWrapper type="flipItems">
+            <Flex justify="center" css={{ textAlign: "center" }}>
+              <AnimationWrapper type="textWave">
                 <Text typography="t2">
                   나타나는 동물을 순서대로 선택해봅시다
+                  <br />
+                  코알라를 선택해보세요
                 </Text>
-                <Text typography="t2">코알라를 선택해보세요</Text>
               </AnimationWrapper>
             </Flex>
-            <Spacing size={64} />
+            <Spacing size={32} />
             <Flex justify="space-around">
-              <IconButton name="questionMark" size={80} />
-              <IconButton name="questionMark" size={80} />
+              <IconButton name="questionMark" />
+              <IconButton name="questionMark" />
             </Flex>
-            <Spacing size={56} />
+            <Spacing size={32} />
             <AnswerOptions
               onClickItem={({ iconType }) => {
                 if (iconType !== "koalaFace") {
@@ -60,42 +61,50 @@ export const SequenceMemoryGameTutorialAnswer = () => {
                 setTutorialFlow("USER_CLICKED_KOALA");
               }}
             />
+            <Spacing size={32} />
           </>
         ))
         .with("USER_CLICKED_KOALA", () => (
           <>
-            <Flex justify="center">
-              <AnimationWrapper type="flipItems">
-                <Text typography="t2">삐익! 틀렸어요</Text>
-                <Text typography="t2">코알라를 선택해서 되돌려보세요</Text>
+            <Flex justify="center" css={{ textAlign: "center" }}>
+              <AnimationWrapper type="textWave">
+                <Text typography="t2">
+                  삐익! 틀렸어요
+                  <br />
+                  코알라를 선택해서 되돌려보세요
+                </Text>
               </AnimationWrapper>
             </Flex>
-            <Spacing size={64} />
+            <Spacing size={32} />
             <Flex justify="space-around">
               <IconButton
                 name="koalaFace"
-                size={80}
                 onClick={() => setTutorialFlow("USER_RESTORED_KOALA")}
               />
-              <IconButton name="questionMark" size={80} />
+              <IconButton name="questionMark" />
             </Flex>
-            <Spacing size={56} />
+            <Spacing size={32} />
             <AnswerOptions />
+            <Spacing size={32} />
           </>
         ))
         .with("USER_RESTORED_KOALA", () => (
           <>
-            <Flex justify="center">
-              <AnimationWrapper type="flipItems">
-                <Text typography="t2">햄스터를 선택해보세요</Text>
+            <Flex justify="center" css={{ textAlign: "center" }}>
+              <AnimationWrapper type="textWave">
+                <Text typography="t2">
+                  햄스터를 선택해보세요
+                  <br />
+                  <br />
+                </Text>
               </AnimationWrapper>
             </Flex>
-            <Spacing size={64} />
+            <Spacing size={32} />
             <Flex justify="space-around">
-              <IconButton name="questionMark" size={80} />
-              <IconButton name="questionMark" size={80} />
+              <IconButton name="questionMark" />
+              <IconButton name="questionMark" />
             </Flex>
-            <Spacing size={56} />
+            <Spacing size={32} />
             <AnswerOptions
               onClickItem={({ iconType }) => {
                 if (iconType !== "hamsterFace") {
@@ -108,18 +117,21 @@ export const SequenceMemoryGameTutorialAnswer = () => {
         ))
         .with("USER_CLICKED_HAMSTER", () => (
           <>
-            <Flex justify="center">
-              <AnimationWrapper type="flipItems">
-                <Text typography="t2">딩동댕~ 맞았어요</Text>
-                <Text typography="t2">갈색 곰을 선택해보세요</Text>
+            <Flex justify="center" css={{ textAlign: "center" }}>
+              <AnimationWrapper type="textWave">
+                <Text typography="t2">
+                  딩동댕~ 맞았어요
+                  <br />
+                  갈색 곰을 선택해보세요
+                </Text>
               </AnimationWrapper>
             </Flex>
-            <Spacing size={64} />
+            <Spacing size={32} />
             <Flex justify="space-around">
-              <IconButton name="hamsterFace" size={80} />
-              <IconButton name="questionMark" size={80} />
+              <IconButton name="hamsterFace" />
+              <IconButton name="questionMark" />
             </Flex>
-            <Spacing size={56} />
+            <Spacing size={32} />
             <AnswerOptions
               onClickItem={({ iconType }) => {
                 if (iconType !== "brownBearFace") {
@@ -128,23 +140,28 @@ export const SequenceMemoryGameTutorialAnswer = () => {
                 setTutorialFlow("USER_CLICKED_BEAR");
               }}
             />
+            <Spacing size={32} />
           </>
         ))
         .with("USER_CLICKED_BEAR", () => (
           <>
-            <Flex justify="center">
-              <AnimationWrapper type="flipItems">
-                <Text typography="t2">잘했어요!</Text>
-                <Text typography="t2">자, 이제 게임을 하러 가볼까요?</Text>
+            <Flex justify="center" css={{ textAlign: "center" }}>
+              <AnimationWrapper type="textWave">
+                <Text typography="t2">
+                  잘했어요!
+                  <br />
+                  자, 이제 게임을 하러 가볼까요?
+                </Text>
               </AnimationWrapper>
             </Flex>
-            <Spacing size={64} />
+            <Spacing size={32} />
             <Flex justify="space-around">
-              <IconButton name="hamsterFace" size={80} />
-              <IconButton name="brownBearFace" size={80} />
+              <IconButton name="hamsterFace" />
+              <IconButton name="brownBearFace" />
             </Flex>
-            <Spacing size={56} />
+            <Spacing size={32} />
             <AnswerOptions />
+            <Spacing size={72} />
             <BottomButton
               onClick={() =>
                 router.push(RouteUrls.sequenceMemoryGame.playing())

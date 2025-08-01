@@ -1,58 +1,73 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GAME_BOX_HEIGHT } from "constants/layout";
-import { AnimatedAnimalIcon } from "pages/sequence-memory-game/common/components/AnimatedAnimalIcon";
-import { AnimalAppearanceInfo } from "pages/sequence-memory-game/common/models/Animations";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
+import { AnimatedIcon } from "pages/sequence-memory-game/common/components/animated-icon";
+import { Effects } from "pages/sequence-memory-game/common/models/Animations";
+
+interface TutorialAnimatedAnimals {
+  name: string;
+  animation: {
+    fromX: number;
+    fromY: number;
+    effect: Effects;
+    delay: number;
+    duration: number;
+  };
+}
 
 export const SequenceMemoryGameTutorialGame = ({
   onComplete,
 }: {
   onComplete: () => void;
 }) => {
-  const [showAnimalList, setSHowAnimalList] = useState<
-    Record<string, AnimalAppearanceInfo>
-  >(() => {
-    return {
-      "1": {
-        id: "1",
-        x: 250,
-        y: 100,
-        icon: "hamsterFace",
-        animationName: "appearAndVanish",
-        delay: 2000,
-        isDone: false,
+  const [tutorialAnimatedAnimals, setTutorialAnimatedAnimals] = useState<
+    TutorialAnimatedAnimals[]
+  >([
+    {
+      name: "hamsterFace",
+      animation: {
+        fromX: 230,
+        fromY: 200,
+        effect: "fadeInOut",
+        delay: 1500,
+        duration: 2500,
       },
-      "2": {
-        id: "2",
-        x: 50,
-        y: 150,
-        icon: "brownBearFace",
-        animationName: "spinMove",
-        delay: 3500,
-        isDone: false,
+    },
+    {
+      name: "brownBearFace",
+      animation: {
+        fromX: 80,
+        fromY: 130,
+        effect: "fadeInOut",
+        delay: 3200,
+        duration: 2500,
       },
-    };
-  });
-
-  useEffect(() => {
-    if (
-      Object.values(showAnimalList).every((animal) => animal.isDone === true)
-    ) {
-      onComplete();
-    }
-  }, [showAnimalList, onComplete]);
+    },
+  ]);
 
   return (
     <DottedBox height={GAME_BOX_HEIGHT}>
-      {Object.entries(showAnimalList).map(([id, animalAppearanceInfo]) => (
-        <AnimatedAnimalIcon
-          key={animalAppearanceInfo.icon}
-          info={animalAppearanceInfo}
+      {tutorialAnimatedAnimals.map((animatedAnimal, index) => (
+        <AnimatedIcon
+          key={index}
+          name={animatedAnimal.name}
+          animation={animatedAnimal.animation}
           onAnimationComplete={() => {
-            setSHowAnimalList((prev) => ({
-              ...prev,
-              [id]: { ...animalAppearanceInfo, isDone: true },
-            }));
+            setTutorialAnimatedAnimals((prev) =>
+              prev.map((animal, i) =>
+                i === index
+                  ? {
+                      ...animal,
+                      animation: {
+                        ...animal.animation,
+                      },
+                    }
+                  : animal
+              )
+            );
+            if (index === tutorialAnimatedAnimals.length - 1) {
+              onComplete();
+            }
           }}
         />
       ))}

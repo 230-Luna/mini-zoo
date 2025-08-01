@@ -3,7 +3,7 @@ import { PAGE_PADDING } from "constants/layout";
 import { ReactNode } from "react";
 import { px } from "utils/css-unit";
 
-export const DottedBox = ({
+export function DottedBox({
   height,
   children,
   className,
@@ -11,7 +11,7 @@ export const DottedBox = ({
   height: number;
   children: ReactNode;
   className?: string;
-}) => {
+}) {
   return (
     <div
       css={{
@@ -27,4 +27,4 @@ export const DottedBox = ({
       {children}
     </div>
   );
-};
+}

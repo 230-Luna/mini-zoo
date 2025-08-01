@@ -10,7 +10,7 @@ interface FlexProps extends ComponentProps<"div"> {
   gap?: CSSProperties["gap"];
 }
 
-export const Flex = ({
+export function Flex({
   children,
   alignItems,
   alignContent,
@@ -19,7 +19,7 @@ export const Flex = ({
   wrap,
   gap,
   ...props
-}: FlexProps) => {
+}: FlexProps) {
   return (
     <div
       css={{
@@ -36,4 +36,4 @@ export const Flex = ({
       {children}
     </div>
   );
-};
+}

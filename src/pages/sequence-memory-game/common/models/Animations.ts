@@ -1,10 +1,32 @@
-export type AnimationName = "appearAndVanish" | "spinMove";
+import { ReactNode } from "react";
 
-export interface AnimalAppearanceInfo {
-  x: number;
-  y: number;
-  icon: string;
-  animationName: AnimationName;
+export type Effects =
+  | "fadeInOut"
+  | "scaleUp"
+  | "scaleDown"
+  | "skewXY"
+  | "skewX"
+  | "skewY"
+  | "shake"
+  | "rotateX"
+  | "rotateY"
+  | "rotateZ"
+  | "horizontalMove"
+  | "verticalMove";
+
+export interface AppearanceEffectProps {
+  effect: Effects;
+  duration: number;
+  fromX: number;
+  fromY: number;
+  onComplete: () => void;
+  children: ReactNode;
+}
+
+export interface Animation {
+  fromX: number;
+  fromY: number;
+  effect: Effects;
   delay: number;
-  isDone: boolean;
+  duration: number;
 }

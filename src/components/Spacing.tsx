@@ -1,4 +1,4 @@
-export const Spacing = ({ size }: { size: number | string }) => {
+export function Spacing({ size }: { size: number | string }) {
   return (
     <div
       css={{
@@ -8,4 +8,4 @@ export const Spacing = ({ size }: { size: number | string }) => {
       }}
     />
   );
-};
+}
