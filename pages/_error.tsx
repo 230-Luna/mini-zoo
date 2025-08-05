@@ -13,20 +13,14 @@ export default function ErrorPage({
   statusCode: number;
   error: Error;
 }) {
-  // 디버깅을 위한 콘솔 로그
-  console.log("ErrorPage called with:", { statusCode, error: error?.message });
-
   if (statusCode === 404) {
-    console.log("Showing NotFoundErrorPage");
     return <NotFoundErrorPage />;
   }
 
   if (statusCode === 500) {
-    console.log("Showing ServerErrorPage");
     return <ServerErrorPage />;
   }
 
-  console.log("Showing DefaultErrorPage");
   return <DefaultErrorPage error={error} />;
 }
 
