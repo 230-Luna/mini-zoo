@@ -1,58 +1,53 @@
 import {
-  Children,
-  ReactNode,
-  RefObject,
-  useEffect,
   useState,
-  useSyncExternalStore,
+  startTransition,
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
 } from "react";
 import { createPortal } from "react-dom";
 
-type RootNode = ShadowRoot | Document | Node;
-
 interface PortalProps {
   children: ReactNode;
-  disabled?: boolean | undefined;
-  container?: RefObject<HTMLElement> | null | undefined;
 }
 
-export default function Portal({ children, disabled, container }: PortalProps) {
-  const [resolvedContainer, setResolvedContainer] = useState(
-    container?.current
-  );
+const PortalContext = createContext<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    setResolvedContainer(() => container?.current);
-  }, [container]);
-
-  const isServer = useSyncExternalStore(
-    () => () => {},
-    () => false, // Client
-    () => true // Server
-  );
-
-  if (isServer || disabled) {
-    return <>{children}</>;
-  }
-
-  const mountNode = resolvedContainer ?? getPortalNode(() => document);
+export function PortalProvider({ children }: PortalProps) {
+  const [portalContainerRef, setPortalContainerRef] =
+    useState<HTMLDivElement | null>(null);
 
   return (
-    <>{Children.map(children, (child) => createPortal(child, mountNode))}</>
+    <PortalContext.Provider value={portalContainerRef}>
+      {children}
+      <div
+        id="portal-container"
+        ref={(el) => {
+          if (portalContainerRef !== null || el === null) {
+            return;
+          }
+
+          startTransition(() => {
+            setPortalContainerRef(el);
+          });
+        }}
+      />
+    </PortalContext.Provider>
   );
 }
 
-const getPortalNode = (cb: () => RootNode) => {
-  const node = cb?.();
-  const rootNode = node.getRootNode();
-  if (isShadowRoot(rootNode)) return rootNode;
-  return getDocument(node).body;
-};
+export function Portal({ children }: PortalProps) {
+  const [mounted, setMounted] = useState(false);
+  const portalContainerRef = useContext(PortalContext);
 
-function isShadowRoot(node: unknown): node is ShadowRoot {
-  return typeof ShadowRoot !== "undefined" && node instanceof ShadowRoot;
-}
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-function getDocument(node: Node): Document {
-  return node?.ownerDocument ?? document;
+  if (!mounted || portalContainerRef === null) {
+    return null;
+  }
+
+  return createPortal(children, portalContainerRef);
 }
