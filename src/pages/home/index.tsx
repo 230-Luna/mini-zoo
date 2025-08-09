@@ -5,12 +5,20 @@ import { Flex } from "components/Flex";
 import { Icon } from "components/Icon";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
+import { useAlertDialog } from "hooks/useAlertDialog";
 import { useRouter } from "next/router";
 import { sequenceMemoryGameScoreStorage } from "pages/sequence-memory-game/common/utils/score-storage";
 import { RouteUrls } from "utils/router";
 
 export function HomePage() {
-  const router = useRouter();
+  const alertDialog = useAlertDialog();
+
+  const handleComingSoonClick = async () => {
+    await alertDialog.open({
+      content: "다음 게임을 준비 중이에요",
+      confirmButtonText: "확인",
+    });
+  };
 
   return (
     <>
@@ -37,7 +45,7 @@ export function HomePage() {
         <Card
           title="???"
           thumbnail="questionMark"
-          onClick={() => router.push(RouteUrls.test())}
+          onClick={handleComingSoonClick}
         />
       </Flex>
     </>

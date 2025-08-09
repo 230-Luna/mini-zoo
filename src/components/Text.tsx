@@ -3,8 +3,8 @@ import { ComponentProps } from "react";
 
 export const fontSize = {
   t1: "40px",
-  t2: "20px",
-  t3: "15px",
+  t2: "24px",
+  t3: "16px",
 } as const;
 
 type Typography = keyof typeof fontSize;

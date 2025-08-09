@@ -23,6 +23,10 @@
     "?(*.)config.*",
     "server.{js,mjs}",
     ".next/**/*",
-    "src/utils/assert.ts"
+    "src/utils/assert.ts",
+    "src/components/ConfirmDialog.tsx",
+    "src/hooks/useConfirmDialog.tsx",
+    
+
   ]
 }
