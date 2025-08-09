@@ -12,7 +12,6 @@ export interface ButtonProps extends ComponentProps<"button"> {
 
 export function Button({
   children,
-
   loading = false,
   onClick,
   disableHover = true,
