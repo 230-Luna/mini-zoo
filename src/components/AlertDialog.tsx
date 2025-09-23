@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import { colors } from "constants/colors";
 import { Button } from "./Button";
 import { Flex } from "./Flex";
+import { PAGE_MAX_WIDTH, PAGE_PADDING } from "constants/layout";
 
 interface AlertDialogProps {
   content: string;
@@ -55,4 +56,5 @@ const dialogStyle = css`
   padding: 24px;
   border-radius: 16px;
   width: 75%;
+  max-width: ${PAGE_MAX_WIDTH - PAGE_PADDING * 2}px;
 `;
