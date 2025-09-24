@@ -13,13 +13,24 @@ export const getRandomGameBoxPosition = () => {
     return { x: 0, y: 0 };
   }
 
-  const containerWidth =
-    window.innerWidth - (PAGE_PADDING + DOTTEDBOX_BORDER) * 2;
-  const maxX = containerWidth - DEFAULT_ICON_SIZE;
-  const maxY = GAME_BOX_HEIGHT - DEFAULT_ICON_SIZE;
+  const actualBoxWidth =
+    Math.min(window.innerWidth - PAGE_PADDING * 2, PAGE_MAX_WIDTH) -
+    DOTTEDBOX_BORDER * 2;
 
-  const x = Math.floor(Math.random() * (maxX + 1));
-  const y = Math.floor(Math.random() * (maxY + 1));
+  const actualBoxHeight = GAME_BOX_HEIGHT - DOTTEDBOX_BORDER * 2;
+  const SAFETY_MARGIN = 8;
+
+  const maxX = Math.max(
+    0,
+    actualBoxWidth - DEFAULT_ICON_SIZE - SAFETY_MARGIN * 2
+  );
+  const maxY = Math.max(
+    0,
+    actualBoxHeight - DEFAULT_ICON_SIZE - SAFETY_MARGIN * 2
+  );
+  
+  const x = SAFETY_MARGIN + Math.floor(Math.random() * (maxX + 1));
+  const y = SAFETY_MARGIN + Math.floor(Math.random() * (maxY + 1));
 
   return { x, y };
 };

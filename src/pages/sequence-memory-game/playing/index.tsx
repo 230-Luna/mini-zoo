@@ -244,7 +244,6 @@ function Answer({
 
     const emptyIconIndex = newSequence.indexOf("EMPTY_ICON");
     if (emptyIconIndex === -1) {
-      console.log("emptyIconIndex", emptyIconIndex);
       return;
     }
 
