@@ -1,40 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 미니쥬(Mini-Zoo) <img src="public/emoji/nuleongSoobookz.svg" alt="수북즈 누렁이" width="48">
 
-## Getting Started
+> 귀여운 토스페이스 동물 이모지들이 등장하는 웹 기반 미니게임 모음입니다.
+>
+> [미니쥬 게임하러 가기](https://mini-zoo.vercel.app/) > <br/>
 
-First, run the development server:
+## 😎 미니게임 종류
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. 순서 기억하기 게임
+
+> 화면에 나타나는 동물들의 순서를 기억하고 맞추는 방식의 게임입니다.
+
+#### 게임 화면 스크린 샷 및 동영상
+
+|                                                             메인 화면                                                              |                                                                     인트로 화면                                                                      |                                                                     튜토리얼 화면                                                                      |                                                                   게임 시작 화면                                                                   |                                                             게임 결과 화면                                                              |                                                            게임 준비 중 화면                                                             |
+| :--------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://github.com/user-attachments/assets/04c068ea-41ab-4c05-8cf9-53669df6e1be" alt="미니쥬 인트로 페이지" width="160"> | <img src="https://github.com/user-attachments/assets/f08d67d7-f60f-4b26-848d-575e1c1461a8" alt="미니쥬 순서기억하기 게임 인트로 페이지" width="160"> | <img src="https://github.com/user-attachments/assets/830ff839-66b5-4435-88c2-5b6a32ab12d5" alt="미니쥬 순서기억하기 게임 튜토리얼 페이지" width="160"> | <img src="https://github.com/user-attachments/assets/96d38ab9-7215-476c-bee1-434701d0572f" alt="미니쥬 순서기억하기 게임 시작 페이지" width="160"> | <img src="https://github.com/user-attachments/assets/5c79c55e-a039-475d-939e-1e8c4f5075a0" alt="미니쥬 게임 결과 페이지" width="160" /> | <img src="https://github.com/user-attachments/assets/ab220181-4d4d-448f-a101-033749a3f7dc" alt="미니쥬 게임 준비 중 모달" width="160" /> |
+
+**게임 플레이 영상**
+
+https://github.com/user-attachments/assets/d562ea52-8302-486c-9c99-cdfbda98ba7e
+
+</div>
+</details>
+
+<br/>
+
+### 2. 🤫 Comming Soon!
+
+> 다음 게임을 준비 중이에요
+
+<br />
+
+---
+
+## 🧐 주요 기능
+
+- **단계별 난이도 상승**: 레벨이 올라갈수록 속도가 빨라지거나 여러 동물들이 나타나면서 난이도가 올라갑니다.
+- **재미있는 애니메이션**: Motion 라이브러리를 활용하여 동물들이 나타날 때나 사용자 이벤트가 있을 때 동적인 애니메이션 효과를 구현했습니다.
+- **최고 점수 기록**: 사용자의 최고 점수를 브라우저(LocalStorage)에 저장하여 메인 화면에서 각 게임별 최고 기록을 확인 할 수 있습니다.
+- **튜토리얼 제공**: 게임을 처음 접하는 사용자를 위해 간단한 튜토리얼을 제공합니다. 한 번이라도 플레이하여 점수가 기록된 게임은 튜토리얼을 생략합니다.
+
+## 🤯 기술 스택
+
+- **Framework**: Next.js 15
+- **Language**: TypeScript 5
+- **Library**: React 19
+- **Animation**: Motion (`motion`)
+- **Utilities**: `ts-pattern` (패턴 매칭), `es-toolkit` (유틸리티 함수)
+- **Code Quality**: ESLint (코드 린팅), Knip (미사용 코드 탐지)
+
+## 😶‍🌫️ 프로젝트 구조
+
+```
+mini-zoo/
+├── public/              # 이미지, 파비콘 등 정적 에셋
+├── src/
+│   ├── components/      # 공통 재사용 컴포넌트 (Button, Icon, Layout 등)
+│   ├── constants/       # 공통 상수 (색상, 레이아웃 값 등)
+│   ├── hooks/           # 커스텀 훅
+│   ├── pages/           # 페이지 컴포넌트
+│   │   ├── home/        # 메인 페이지
+│   │   └── sequence-memory-game/ # 순서 기억하기 게임
+│   │       ├── common/    # 게임 공통 요소
+│   │       ├── intro/     # 게임 인트로 페이지
+│   │       ├── playing/   # 게임 플레이 페이지
+│   │       └── tutorial/  # 튜토리얼 게임 페이지
+│   ├── query-options/   # 쿼리 옵션(TanStack)
+│   └── utils/           # 유틸리티 함수
+└── package.json         # 프로젝트 설정 및 의존성 관리
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🤗 시작하기
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1.  **저장소 복제:**
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+    ```bash
+    git clone https://github.com/230-Luna/mini-zoo.git
+    cd mini-zoo
+    ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+2.  **의존성 설치:**
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    ```bash
+    npm install
+    ```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+3.  **개발 서버 실행:**
+    ```bash
+    npm run dev
+    ```
+    브라우저에서 `http://localhost:3000`으로 접속하세요.
