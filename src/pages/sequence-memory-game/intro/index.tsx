@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 import { sequenceMemoryGameScoreStorage } from "../common/utils/score-storage";
 import { usePrefetchPages } from "hooks/usePrefetchPages";
+import { usePrefetchImages } from "hooks/usePrefetchImages";
+import { emojiFiles } from "constants/emoji";
 
 export function SequenceMemoryGameIntroPage() {
   const router = useRouter();
@@ -16,6 +18,10 @@ export function SequenceMemoryGameIntroPage() {
     RouteUrls.sequenceMemoryGame.tutorial.index(),
     RouteUrls.sequenceMemoryGame.playing(),
   ]);
+
+  const { status: imagePrefetchingStatus } = usePrefetchImages(
+    emojiFiles.map((emojiFile) => `/emoji/${emojiFile}`)
+  );
 
   return (
     <>
@@ -37,6 +43,7 @@ export function SequenceMemoryGameIntroPage() {
         </AnimationWrapper>
       </Flex>
       <BottomButton
+        loading={imagePrefetchingStatus !== "DONE"}
         onClick={() => {
           if (sequenceMemoryGameScoreStorage.get() === null) {
             router.push(RouteUrls.sequenceMemoryGame.tutorial.index());
