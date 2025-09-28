@@ -26,11 +26,13 @@ import { AnimationWrapper } from "components/AnimationWrapper";
 import { getRandomItem } from "utils/random";
 import { effects } from "../common/constants/appearanceEffects";
 import { getIconCountByLevel } from "./common/utils/gameSetting";
+import { usePrefetchPages } from "hooks/usePrefetchPages";
 
 export function SequenceMemoryGamePlayingPage() {
   const [level, setLevel] = useState<number>(1);
   const [score, setScore] = useState(0);
   const router = useRouter();
+  usePrefetchPages([RouteUrls.home()]);
 
   return (
     <>

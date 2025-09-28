@@ -6,6 +6,7 @@ import { Icon } from "components/Icon";
 import { Spacing } from "components/Spacing";
 import { Text } from "components/Text";
 import { useAlertDialog } from "hooks/useAlertDialog";
+import { usePrefetchPages } from "hooks/usePrefetchPages";
 import { useRouter } from "next/router";
 import { sequenceMemoryGameScoreStorage } from "pages/sequence-memory-game/common/utils/score-storage";
 import { RouteUrls } from "utils/router";
@@ -54,6 +55,7 @@ export function HomePage() {
 
 function SequenceMemoryGameCard() {
   const router = useRouter();
+  usePrefetchPages([RouteUrls.sequenceMemoryGame.intro()]);
 
   return (
     <Card
