@@ -6,9 +6,11 @@ import { Text } from "components/Text";
 import { SequenceMemoryGameTutorialGame } from "./components/tutorialGame";
 import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
+import { usePrefetchPages } from "hooks/usePrefetchPages";
 
 export function SequenceMemoryGameTutorialPage() {
   const router = useRouter();
+  usePrefetchPages([RouteUrls.sequenceMemoryGame.tutorial.answer()]);
 
   return (
     <>

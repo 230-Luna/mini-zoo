@@ -8,9 +8,14 @@ import { Text } from "components/Text";
 import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 import { sequenceMemoryGameScoreStorage } from "../common/utils/score-storage";
+import { usePrefetchPages } from "hooks/usePrefetchPages";
 
 export function SequenceMemoryGameIntroPage() {
   const router = useRouter();
+  usePrefetchPages([
+    RouteUrls.sequenceMemoryGame.tutorial.index(),
+    RouteUrls.sequenceMemoryGame.playing(),
+  ]);
 
   return (
     <>

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { RouteUrls } from "utils/router";
 import { chunk } from "es-toolkit";
 import { DottedBox } from "pages/sequence-memory-game/common/components/DottedBox";
+import { usePrefetchPages } from "hooks/usePrefetchPages";
 
 export const SequenceMemoryGameTutorialAnswer = () => {
   const [tutorialFlow, setTutorialFlow] = useState<
@@ -24,6 +25,7 @@ export const SequenceMemoryGameTutorialAnswer = () => {
   >("INITIAL");
 
   const router = useRouter();
+  usePrefetchPages([RouteUrls.sequenceMemoryGame.playing()]);
 
   return (
     <>
